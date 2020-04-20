@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginLeft="16dp"
+              android:layout_marginRight="16dp"
+              tools:context=".skin.SkinFragment">
+
+    <LinearLayout
+            android:id="@+id/skin"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:ems="10"
+                android:id="@+id/detail_skin_data"
+                android:layout_weight="1"
+                android:text="@string/detail_skin_data"/>
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autoLink="none"
+                android:ems="10"
+                android:id="@+id/detail_skin_record"
+                android:layout_weight="1"
+                android:text="@string/detail_skin_record"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="@string/detail_skin_condition"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="24sp"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_condition_dry"
+                        android:id="@+id/detail_skin_condition_dry"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_condition_oily"
+                        android:id="@+id/detail_skin_condition_oily"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_condition_sensitivity"
+                        android:id="@+id/detail_skin_condition_sensitivity"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_condition_mixed"
+                        android:id="@+id/detail_skin_condition_mixed"/>
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="@string/detail_skin_improve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_improve_acne"
+                        android:id="@+id/detail_skin_improve_acne"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_improve_sensitivity"
+                        android:id="@+id/detail_skin_improve_sensitivity"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_improve_wrinkles"
+                        android:id="@+id/detail_skin_improve_wrinkles"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_improve_pores"
+                        android:id="@+id/detail_skin_improve_pores"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_improve_spots"
+                        android:id="@+id/detail_skin_improve_spots"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_improve_dull"
+                        android:id="@+id/detail_skin_improve_dull"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_skin_improve_pock"
+                        android:id="@+id/detail_skin_improve_pock"/>
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:text="@string/detail_skin_improve_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/detail_skin_improve_other"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/detail_ok"
+                android:layout_weight="1"
+                android:text="@string/detail_ok"/>
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/detail_cancel"
+                android:layout_weight="1"
+                android:text="@string/detail_cancel"/>
+    </LinearLayout>
+</LinearLayout>

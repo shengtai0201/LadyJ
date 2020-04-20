@@ -1,0 +1,32 @@
+// 未看
+https://www.oodlestechnologies.com/blogs/How-to-use-Sync-Adapter-In-Android/
+
+// 已參考
+https://josiassena.com/building-a-sync-adapter-and-using-it-on-android/
+
+// google
+https://developer.android.com/training/sync-adapters
+
+// android-paging-master
+
+Api 的功用是在網路針對 entity 作細粒度的操作
+Dao 的功用是在本地資料庫針對 entity 作細粒度的操作
+對於單一 entity，Repository 的功用在組織管理 Api、Dao
+view model 則是針對不同之 entity，引用各自之 Repository，整合之
+
+處理私有資料之同步於伺服器
+entity.dirty 用於表示本地資料是否有同步至伺服器端，為 true 表示尚未同步成功，為 false 則否；
+於讀取伺服器資料時，以伺服器之主鍵比對本地資料，存在則讓該 entity.dirty = false，其他資料不異動，
+不存在則是本地資料已刪除，而伺服器尚未刪除，嚴重錯誤；
+另外，以本地之主鍵比對遠端資料，存在之處理已於上述處理過，
+不存在則表示本地資料尚未新增至伺服器，應設定 entity.dirty = true，資訊紀錄之。
+
+處理共有資料之同步於伺服器
+entity.dirty 用於表示本地資料是否有同步至伺服器端，為 true 表示尚未同步成功，為 false 則否；
+於讀取伺服器資料時，以伺服器之主鍵比對本地資料，存在則讓該 entity.dirty = false，其他資料不異動，
+不存在則是本地資料已刪除，而伺服器尚未刪除，接著觸發 api 刪除；
+另外，以本地之主鍵比對遠端資料，存在之處理已於上述處理過，
+不存在則表示本地資料尚未新增至伺服器，應設定 entity.dirty = true，然後觸發 api 新增。
+
+// todo
+從 server 取回之時間資料，怎麼 format 成簡單格式？

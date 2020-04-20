@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/master"
+            app:startDestination="@id/nav_customer">
+
+    <fragment android:id="@+id/nav_customer"
+              android:name="com.driveinto.ladyj.customer.CustomerFragment"
+              android:label="fragment_customer"
+              tools:layout="@layout/fragment_master">
+
+        <argument android:name="loginResult"
+                  app:argType="com.driveinto.ladyj.login.LoginResult"/>
+
+        <action android:id="@+id/action_nav_customer_to_nav_body"
+                app:destination="@id/nav_body"/>
+        <action android:id="@+id/action_nav_customer_to_nav_skin"
+                app:destination="@id/nav_skin"/>
+        <action android:id="@+id/action_nav_customer_to_nav_customer_detail"
+                app:destination="@id/nav_customer_detail"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_organization"
+              android:name="com.driveinto.ladyj.organization.OrganizationFragment"
+              android:label="fragment_organization"
+              tools:layout="@layout/fragment_organization"/>
+
+    <fragment android:id="@+id/nav_sales"
+              android:name="com.driveinto.ladyj.sales.SalesFragment"
+              android:label="fragment_sales"
+              tools:layout="@layout/fragment_sales"/>
+
+    <fragment android:id="@+id/nav_customer_detail"
+              android:name="com.driveinto.ladyj.customer.CustomerDetailFragment"
+              android:label="fragment_customer_detail"
+              tools:layout="@layout/fragment_customer_detail">
+
+        <argument android:name="loginResult"
+                  app:argType="com.driveinto.ladyj.login.LoginResult"/>
+        <argument android:name="customer"
+                  app:argType="com.driveinto.ladyj.customer.Customer"
+                  app:nullable="true"/>
+        <argument android:name="operationValue"
+                  app:argType="integer"/>
+
+        <action android:id="@+id/action_nav_customer_detail_to_nav_body"
+                app:destination="@id/nav_body"/>
+        <action android:id="@+id/action_nav_customer_detail_to_nav_skin"
+                app:destination="@id/nav_skin"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_body"
+              android:name="com.driveinto.ladyj.body.BodyFragment"
+              android:label="BodyFragment">
+
+        <argument android:name="body"
+                  app:argType="com.driveinto.ladyj.body.Body"/>
+
+        <action android:id="@+id/action_nav_body_to_nav_body_data"
+                app:destination="@id/nav_body_data"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_body_data"
+              android:name="com.driveinto.ladyj.body.data.BodyDataFragment"
+              android:label="BodyDataFragment">
+
+        <argument android:name="body"
+                  app:argType="com.driveinto.ladyj.body.Body"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_skin"
+              android:name="com.driveinto.ladyj.skin.SkinFragment"
+              android:label="SkinFragment">
+
+        <argument android:name="skin"
+                  app:argType="com.driveinto.ladyj.skin.Skin"/>
+    </fragment>
+</navigation>

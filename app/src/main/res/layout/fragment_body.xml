@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"
+             tools:context=".body.BodyFragment">
+
+    <LinearLayout
+            android:id="@+id/body"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:ems="10"
+                android:id="@+id/detail_body_data"
+                android:layout_weight="1"
+                android:text="@string/detail_body_data"/>
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autoLink="none"
+                android:ems="10"
+                android:id="@+id/detail_body_record"
+                android:layout_weight="1"
+                android:text="@string/detail_body_record"/>
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autoLink="none"
+                android:ems="10"
+                android:id="@+id/detail_body_record_data"
+                android:layout_weight="1"
+                android:text="@string/detail_body_record_data"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="@string/detail_body_health"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="24sp"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_health_spine"
+                        android:id="@+id/detail_body_health_spine"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_health_backache"
+                        android:id="@+id/detail_body_health_backache"/>
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:text="@string/detail_body_health_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/detail_body_health_other"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="@string/detail_body_curve_breast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_breast_enhancement"
+                        android:id="@+id/detail_body_curve_breast_enhancement"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_breast_reduction"
+                        android:id="@+id/detail_body_curve_breast_reduction"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_breast_care"
+                        android:id="@+id/detail_body_curve_breast_care"/>
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="@string/detail_body_curve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_arm"
+                        android:id="@+id/detail_body_curve_arm"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_hip"
+                        android:id="@+id/detail_body_curve_hip"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_stomach"
+                        android:id="@+id/detail_body_curve_stomach"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_waist"
+                        android:id="@+id/detail_body_curve_waist"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_abdominal"
+                        android:id="@+id/detail_body_curve_abdominal"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_thigh"
+                        android:id="@+id/detail_body_curve_thigh"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_calf"
+                        android:id="@+id/detail_body_curve_calf"/>
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="@string/detail_body_curve_fat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_fat_soft"
+                        android:id="@+id/detail_body_curve_fat_soft"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_fat_hard"
+                        android:id="@+id/detail_body_curve_fat_hard"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_fat_cellulite"
+                        android:id="@+id/detail_body_curve_fat_cellulite"/>
+
+                <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/detail_body_curve_fat_tangled"
+                        android:id="@+id/detail_body_curve_fat_tangled"/>
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:text="@string/detail_body_curve_fat_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/detail_body_curve_fat_other"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/detail_ok"
+                android:layout_weight="1"
+                android:text="@string/detail_ok"/>
+
+        <Button
+                android:layout_marginStart="@dimen/button_horizontal_margin"
+                android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/detail_cancel"
+                android:layout_weight="1"
+                android:text="@string/detail_cancel"/>
+    </LinearLayout>
+</LinearLayout>

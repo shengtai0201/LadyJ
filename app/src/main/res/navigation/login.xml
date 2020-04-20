@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/login"
+            app:startDestination="@id/nav_login">
+
+    <fragment android:id="@+id/nav_login"
+              android:name="com.driveinto.ladyj.login.LoginFragment"
+              android:label="fragment_login"
+              tools:layout="@layout/fragment_login">
+
+        <action android:id="@+id/action_nav_login_to_nav_default"
+                app:destination="@id/nav_default"/>
+
+        <argument android:name="startDestination"
+                  app:argType="integer"
+                  android:defaultValue="0"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_default"
+              android:name="com.driveinto.ladyj.app.DefaultFragment"
+              android:label="DefaultFragment">
+
+        <argument android:name="loginResult"
+                  app:argType="com.driveinto.ladyj.login.LoginResult"/>
+        <argument android:name="startDestination"
+                  app:argType="integer"
+                  android:defaultValue="0"/>
+
+        <action android:id="@+id/action_nav_default_to_nav_login"
+                app:destination="@id/nav_login"/>
+    </fragment>
+</navigation>

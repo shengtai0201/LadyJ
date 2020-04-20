@@ -1,0 +1,126 @@
+<resources>
+    <string name="app_name">Lady J</string>
+    <string name="facebook_app_id">789639614844563</string>
+    <string name="fb_login_protocol_scheme">fb789639614844563</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="customer_roles_none">暫停使用</string>
+    <string name="customer_roles_at">AT</string>
+    <string name="customer_roles_brand_representative">代言人</string>
+    <string name="customer_roles_vip">VIP</string>
+    <string name="customer_roles_retail">零售</string>
+    <string-array name="customer_roles">
+        <item>@string/customer_roles_none</item>
+        <item>@string/customer_roles_at</item>
+        <item>@string/customer_roles_brand_representative</item>
+        <item>@string/customer_roles_vip</item>
+        <item>@string/customer_roles_retail</item>
+    </string-array>
+
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="generic_title_text">OAuth Sign In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="generic_status_fmt">User: %s (%s)</string>
+    <string name="firebase_status_fmt">Firebase UID: %s</string>
+    <string name="server_status_fmt">Server response: %s</string>
+    <string name="error_sign_in_failed">Sign in failed, see logs for details.</string>
+
+    <string-array name="login_status">
+        <item>登入Google帳戶</item>
+        <item>登入系統</item>
+        <item>登出</item>
+        <item>離線</item>
+    </string-array>
+
+    <string name="menu_auth">登出</string>
+    <string name="menu_login">登出</string>
+    <string name="menu_customer">客戶</string>
+    <string name="menu_customer_detail">客戶</string>
+    <string name="menu_customer_detail_body">美體</string>
+    <string name="menu_customer_detail_skin">美膚</string>
+    <string name="menu_organization">組織</string>
+    <string name="menu_sales">銷售</string>
+    <string name="menu_hot_key">快速鍵</string>
+    <string name="menu_test">測試</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="action_settings">Settings</string>
+    <string name="customer">客戶資料</string>
+    <string name="customer_member_id">會員編號：</string>
+    <string name="customer_name">姓名：</string>
+    <string name="customer_phone">電話：</string>
+    <string name="customer_birthday">生日：</string>
+    <string name="customer_address">地址：</string>
+    <string name="customer_job">職業：</string>
+    <string name="customer_line_id">Line Id：</string>
+    <string name="customer_date">加入時間：</string>
+    <string name="customer_height">身高：</string>
+    <string name="customer_weight">體重：</string>
+    <string name="customer_reference">介紹人：</string>
+    <string name="customer_role">會員身份：</string>
+    <string name="date_format">%d/%d/%d</string>
+    <string name="detail_create">新增</string>
+    <string name="detail_update">修改</string>
+    <string name="detail_destroy">刪除</string>
+    <string-array name="detail_ok">
+        <item>@string/detail_create</item>
+        <item>@string/detail_update</item>
+        <item>@string/detail_destroy</item>
+    </string-array>
+    <string name="detail_ok">確定</string>
+    <string name="detail_cancel">取消</string>
+
+    <string name="account_type">driveinto.com</string>
+    <string name="authority">com.driveinto.ladyj</string>
+    <string name="account">default_account</string>
+
+    <string name="detail_body">美體</string>
+    <string name="detail_skin">美膚</string>
+
+    <string name="detail_body_data">診斷</string>
+    <string name="detail_body_record">追蹤記錄</string>
+    <string name="detail_body_record_data">組合</string>
+    <string name="detail_body_health">健康</string>
+    <string name="detail_body_health_spine">脊椎</string>
+    <string name="detail_body_health_backache">腰酸背痛</string>
+    <string name="detail_body_health_other">其他</string>
+    <string name="detail_body_curve_breast">曲線-胸部</string>
+    <string name="detail_body_curve_breast_enhancement">豐</string>
+    <string name="detail_body_curve_breast_reduction">減</string>
+    <string name="detail_body_curve_breast_care">維持</string>
+    <string name="detail_body_curve">曲線</string>
+    <string name="detail_body_curve_arm">手臂</string>
+    <string name="detail_body_curve_hip">臀部</string>
+    <string name="detail_body_curve_stomach">胃部</string>
+    <string name="detail_body_curve_waist">腰部</string>
+    <string name="detail_body_curve_abdominal">腹部</string>
+    <string name="detail_body_curve_thigh">大腿</string>
+    <string name="detail_body_curve_calf">小腿</string>
+    <string name="detail_body_curve_fat">曲線-脂肪狀況</string>
+    <string name="detail_body_curve_fat_soft">軟</string>
+    <string name="detail_body_curve_fat_hard">硬</string>
+    <string name="detail_body_curve_fat_cellulite">橘皮</string>
+    <string name="detail_body_curve_fat_tangled">糾結</string>
+    <string name="detail_body_curve_fat_other">其他</string>
+
+    <string name="detail_skin_data">建議</string>
+    <string name="detail_skin_record">備註</string>
+    <string name="detail_skin_condition">膚質狀況</string>
+    <string name="detail_skin_condition_dry">乾性</string>
+    <string name="detail_skin_condition_oily">油性</string>
+    <string name="detail_skin_condition_sensitivity">敏感性</string>
+    <string name="detail_skin_condition_mixed">混合性</string>
+    <string name="detail_skin_improve">改善膚況</string>
+    <string name="detail_skin_improve_acne">粉刺</string>
+    <string name="detail_skin_improve_sensitivity">敏感</string>
+    <string name="detail_skin_improve_wrinkles">皺紋</string>
+    <string name="detail_skin_improve_pores">毛孔粗大</string>
+    <string name="detail_skin_improve_spots">斑</string>
+    <string name="detail_skin_improve_dull">暗沉</string>
+    <string name="detail_skin_improve_pock">痘疤</string>
+    <string name="detail_skin_improve_other">其他</string>
+</resources>
