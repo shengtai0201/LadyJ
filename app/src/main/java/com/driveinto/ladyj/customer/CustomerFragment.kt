@@ -23,17 +23,6 @@ import kotlinx.android.synthetic.main.fragment_master.view.*
 
 class CustomerFragment : AbstractFragment(), ListCallback<Customer> {
 
-    companion object {
-        private const val LOG_TAG = "CustomerFragment"
-
-        fun newInstance(loginResult: LoginResult) =
-            CustomerFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(LoginResult.nameKey, loginResult)
-                }
-            }
-    }
-
     private val viewModel: CustomerViewModel by viewModels {
         object : AbstractSavedStateViewModelFactory(this, null) {
             override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
@@ -112,5 +101,9 @@ class CustomerFragment : AbstractFragment(), ListCallback<Customer> {
         if (entity != null) {
             Log.i(LOG_TAG, "已選取 Customer, Id: ${entity.id}, RowId: ${entity.rowId}, Dirty: ${entity.dirty}")
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "CustomerFragment"
     }
 }

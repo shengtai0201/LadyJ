@@ -3,6 +3,7 @@ package com.driveinto.ladyj.body.data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +11,10 @@ import com.driveinto.ladyj.DetailOperations
 import com.driveinto.ladyj.ListCallback
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.room.Converters
-import com.google.android.material.textview.MaterialTextView
 import kotlinx.android.synthetic.main.body_data_master.view.*
 
 class BodyDataRecyclerViewAdapter(private val callback: ListCallback<BodyData>) :
-    ListAdapter<BodyData, BodyDataRecyclerViewAdapter.ViewHolder>(
-        BODY_DATA_COMPARATOR
-    ) {
+    ListAdapter<BodyData, BodyDataRecyclerViewAdapter.ViewHolder>(BODY_DATA_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.body_data_master, parent, false)
@@ -38,7 +36,7 @@ class BodyDataRecyclerViewAdapter(private val callback: ListCallback<BodyData>) 
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val date: MaterialTextView = view.date
+        private val date: TextView = view.date
 
         fun bind(bodyData: BodyData) {
             date.text = Converters.toDateString(bodyData.dateMillis)

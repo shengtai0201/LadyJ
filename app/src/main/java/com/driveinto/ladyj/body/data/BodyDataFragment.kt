@@ -10,6 +10,7 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.driveinto.ladyj.DetailOperations
@@ -32,7 +33,7 @@ class BodyDataFragment : AbstractFragment(), ListCallback<BodyData> {
         }
     }
 
-    private var body: Body? = null
+    private lateinit var body: Body
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,41 +64,40 @@ class BodyDataFragment : AbstractFragment(), ListCallback<BodyData> {
         })
 
         // setup scroll listener
-        body?.let {
-            val layoutManager = view.master.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
-            view.master.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    val totalItemCount = layoutManager.itemCount
-                    val visibleItemCount = layoutManager.childCount
-                    val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+        val layoutManager = view.master.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
+        view.master.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val totalItemCount = layoutManager.itemCount
+                val visibleItemCount = layoutManager.childCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                    viewModel.listScrolled(it, visibleItemCount, lastVisibleItem, totalItemCount)
-                }
-            })
+                viewModel.listScrolled(body, visibleItemCount, lastVisibleItem, totalItemCount)
+            }
+        })
 
-            // query
-            viewModel.list(it)
-        }
+        // query
+        viewModel.list(body)
 
         return view
     }
 
     override fun onItemChanging(entity: BodyData?, operation: DetailOperations) {
-        body?.let {
-            if (resources.getBoolean(R.bool.twoPane)) {
-                // 明細一同顯示
+        if (resources.getBoolean(R.bool.twoPane)) {
+            // 明細一同顯示
+            val detail = BodyDataDetailFragment.newInstance(body, entity, operation.value)
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.detail_container, detail).commit()
+        } else {
+            // 導向明細
+            val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
+            //val action = BodyDataFr
+        }
 
-            } else {
-                // 導向明細
-            }
-
-            if (entity != null) {
-                Log.i(
-                    LOG_TAG,
-                    "已選取 BodyData, DateMillis: ${entity.dateMillis}, BodyId: ${entity.bodyId}, Dirty: ${entity.dirty}"
-                )
-            }
+        if (entity != null) {
+            Log.i(
+                LOG_TAG,
+                "已選取 BodyData, DateMillis: ${entity.dateMillis}, BodyId: ${entity.bodyId}, Dirty: ${entity.dirty}"
+            )
         }
     }
 

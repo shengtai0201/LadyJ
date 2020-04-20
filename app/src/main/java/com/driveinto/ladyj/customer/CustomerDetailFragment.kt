@@ -17,7 +17,6 @@ import com.driveinto.ladyj.DetailOperations
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.app.DatePickerFragment
 import com.driveinto.ladyj.app.AbstractFragment
-import com.driveinto.ladyj.login.ILoginResult
 import com.driveinto.ladyj.login.LoginResult
 import com.driveinto.ladyj.room.Converters
 import kotlinx.android.synthetic.main.fragment_customer_detail.view.*

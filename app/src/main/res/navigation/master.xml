@@ -21,16 +21,6 @@
                 app:destination="@id/nav_customer_detail"/>
     </fragment>
 
-    <fragment android:id="@+id/nav_organization"
-              android:name="com.driveinto.ladyj.organization.OrganizationFragment"
-              android:label="fragment_organization"
-              tools:layout="@layout/fragment_organization"/>
-
-    <fragment android:id="@+id/nav_sales"
-              android:name="com.driveinto.ladyj.sales.SalesFragment"
-              android:label="fragment_sales"
-              tools:layout="@layout/fragment_sales"/>
-
     <fragment android:id="@+id/nav_customer_detail"
               android:name="com.driveinto.ladyj.customer.CustomerDetailFragment"
               android:label="fragment_customer_detail"
@@ -67,6 +57,22 @@
 
         <argument android:name="body"
                   app:argType="com.driveinto.ladyj.body.Body"/>
+        <action android:id="@+id/action_nav_body_data_to_nav_body_data_detail"
+                app:destination="@id/nav_body_data_detail"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_body_data_detail"
+              android:name="com.driveinto.ladyj.body.data.BodyDataDetailFragment"
+              android:label="fragment_body_data_detail"
+              tools:layout="@layout/fragment_body_data_detail">
+
+        <argument android:name="body"
+                  app:argType="com.driveinto.ladyj.body.Body"/>
+        <argument android:name="bodyData"
+                  app:argType="com.driveinto.ladyj.body.data.BodyData"
+                  app:nullable="true"/>
+        <argument android:name="operationValue"
+                  app:argType="integer"/>
     </fragment>
 
     <fragment android:id="@+id/nav_skin"
@@ -76,4 +82,14 @@
         <argument android:name="skin"
                   app:argType="com.driveinto.ladyj.skin.Skin"/>
     </fragment>
+
+    <fragment android:id="@+id/nav_organization"
+              android:name="com.driveinto.ladyj.organization.OrganizationFragment"
+              android:label="fragment_organization"
+              tools:layout="@layout/fragment_organization"/>
+
+    <fragment android:id="@+id/nav_sales"
+              android:name="com.driveinto.ladyj.sales.SalesFragment"
+              android:label="fragment_sales"
+              tools:layout="@layout/fragment_sales"/>
 </navigation>

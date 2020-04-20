@@ -147,8 +147,4 @@ class CustomerRepository(private val api: CustomerApi, private val dao: Customer
 
         executor.shutdown()
     }
-
-    companion object {
-        private const val LOG_TAG = "CustomerRepository"
-    }
 }

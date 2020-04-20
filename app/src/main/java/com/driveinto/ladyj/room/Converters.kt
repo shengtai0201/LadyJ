@@ -51,11 +51,10 @@ class Converters {
             return local.convertLocalToUTC(date.millis, false)
         }
 
-        fun toUTCMillis(): Long{
+        fun toUTCMillis(): Long {
             val date = DateTime()
-            val local = DateTimeZone.forTimeZone(TimeZone.getDefault())
 
-            return local.convertLocalToUTC(date.millis, false)
+            return toUTCMillis(date.year, date.monthOfYear + 1, date.dayOfMonth)
         }
 
         fun toDateTime(utcMillis: Long): DateTime {

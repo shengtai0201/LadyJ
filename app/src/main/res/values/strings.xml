@@ -123,4 +123,7 @@
     <string name="detail_skin_improve_dull">暗沉</string>
     <string name="detail_skin_improve_pock">痘疤</string>
     <string name="detail_skin_improve_other">其他</string>
+
+    <string name="body_data_remark">備註</string>
+    <string name="body_data_diagnosis">技導診斷</string>
 </resources>

@@ -93,5 +93,7 @@ data class Body(
             curveFatOther = null,
             dirty = null
         )
+
+        const val key = "BODY"
     }
 }
