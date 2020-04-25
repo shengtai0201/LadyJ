@@ -11,13 +11,13 @@ import com.driveinto.ladyj.DetailOperations
 import com.driveinto.ladyj.ListCallback
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.room.Converters
-import kotlinx.android.synthetic.main.body_data_master.view.*
+import kotlinx.android.synthetic.main.master_body_data.view.*
 
 class BodyDataRecyclerViewAdapter(private val callback: ListCallback<BodyData>) :
-    ListAdapter<BodyData, BodyDataRecyclerViewAdapter.ViewHolder>(BODY_DATA_COMPARATOR) {
+    ListAdapter<BodyData, BodyDataRecyclerViewAdapter.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.body_data_master, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.master_body_data, parent, false)
         return ViewHolder(view)
     }
 
@@ -44,7 +44,7 @@ class BodyDataRecyclerViewAdapter(private val callback: ListCallback<BodyData>) 
     }
 
     companion object {
-        private val BODY_DATA_COMPARATOR = object : DiffUtil.ItemCallback<BodyData>() {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<BodyData>() {
             override fun areItemsTheSame(oldItem: BodyData, newItem: BodyData): Boolean =
                 oldItem.dateMillis == newItem.dateMillis && oldItem.bodyId == newItem.bodyId
 

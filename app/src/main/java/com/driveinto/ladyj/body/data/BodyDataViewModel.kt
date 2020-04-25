@@ -25,9 +25,14 @@ class BodyDataViewModel(application: Application) : AndroidViewModel(application
 
     private val body = MutableLiveData<Body>()
 
+    //    private val dataResult: LiveData<DataSourceResult<List<BodyData>>> = body.switchMap {
+//        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+//            emit(bodyDataRepository.request(it.requestMap))
+//        }
+//    }
     private val dataResult: LiveData<DataSourceResult<List<BodyData>>> = body.switchMap {
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            emit(bodyDataRepository.request(it.requestMap))
+            emit(bodyDataRepository.request(it))
         }
     }
 
@@ -38,10 +43,17 @@ class BodyDataViewModel(application: Application) : AndroidViewModel(application
         this.body.postValue(body)
     }
 
+//    fun listScrolled(body: Body, visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
+//        if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
+//            viewModelScope.launch(Dispatchers.IO) {
+//                bodyDataRepository.requestMore(body.requestMap)
+//            }
+//        }
+//    }
     fun listScrolled(body: Body, visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
         if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
             viewModelScope.launch(Dispatchers.IO) {
-                bodyDataRepository.requestMore(body.requestMap)
+                bodyDataRepository.requestMore(body)
             }
         }
     }

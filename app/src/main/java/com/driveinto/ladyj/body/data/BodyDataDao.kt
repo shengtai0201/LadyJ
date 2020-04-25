@@ -5,11 +5,11 @@ import androidx.room.*
 
 @Dao
 interface BodyDataDao {
-    @Query("SELECT * FROM BodyData ORDER BY dateMillis")
-    fun queryAsync(): LiveData<List<BodyData>>
+    @Query("SELECT * FROM BodyData WHERE bodyId = :bodyId ORDER BY dateMillis")
+    fun queryAsync(bodyId: Int): LiveData<List<BodyData>>
 
-    @Query("SELECT * FROM BodyData ORDER BY dateMillis")
-    fun query(): List<BodyData>
+    @Query("SELECT * FROM BodyData WHERE bodyId = :bodyId ORDER BY dateMillis")
+    fun query(bodyId: Int): List<BodyData>
 
     @Update
     suspend fun updateAsync(bodyData: BodyData)

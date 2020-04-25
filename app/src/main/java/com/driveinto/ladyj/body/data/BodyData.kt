@@ -2,11 +2,10 @@ package com.driveinto.ladyj.body.data
 
 import android.os.Parcelable
 import androidx.room.Entity
-import com.driveinto.ladyj.customer.Customer
 import com.driveinto.ladyj.room.Converters
-import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
+// 診斷
 @Parcelize
 @Entity(primaryKeys = ["dateMillis", "bodyId"])
 data class BodyData(

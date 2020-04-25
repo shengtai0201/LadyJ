@@ -45,6 +45,24 @@
     <string name="menu_sales">銷售</string>
     <string name="menu_hot_key">快速鍵</string>
     <string name="menu_test">測試</string>
+
+    <string name="nav_customer">客戶</string>
+    <string name="nav_customer_detail">客戶</string>
+    <string name="nav_body">美體</string>
+    <string name="nav_body_data">診斷</string>
+    <string name="nav_body_data_detail">診斷</string>
+    <string name="nav_body_record">追蹤記錄</string>
+    <string name="nav_body_record_detail">追蹤記錄</string>
+    <string name="nav_body_record_data">組合</string>
+    <string name="nav_body_record_data_detail">組合</string>
+    <string name="nav_skin">美膚</string>
+    <string name="nav_skin_data">建議</string>
+    <string name="nav_skin_data_detail">建議</string>
+    <string name="nav_skin_record">備註</string>
+    <string name="nav_skin_record_detail">備註</string>
+    <string name="nav_organization">組織</string>
+    <string name="nav_sales">銷售</string>
+
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
@@ -126,4 +144,24 @@
 
     <string name="body_data_remark">備註</string>
     <string name="body_data_diagnosis">技導診斷</string>
+
+    <string name="body_record_upper_bust">上胸圍</string>
+    <string name="body_record_under_bust">下胸圍</string>
+    <string name="body_record_cup_size">乳容量</string>
+    <string name="body_record_left_arm">左手臂圍</string>
+    <string name="body_record_right_arm">右手臂圍</string>
+    <string name="body_record_stomach">胃圍</string>
+    <string name="body_record_waist">腰圍</string>
+    <string name="body_record_abdominal">腹圍</string>
+    <string name="body_record_hip">臀圍</string>
+    <string name="body_record_left_leg">左腿</string>
+    <string name="body_record_right_leg">右腿</string>
+
+    <string name="body_record_data_design">設計組合</string>
+    <string name="body_record_data_buy">購買組合</string>
+
+    <string name="skin_data_advice">保養建議</string>
+    <string name="skin_data_details">購買明細</string>
+
+    <string name="skin_record_remark">備註</string>
 </resources>

@@ -7,7 +7,7 @@
 
     <fragment android:id="@+id/nav_customer"
               android:name="com.driveinto.ladyj.customer.CustomerFragment"
-              android:label="fragment_customer"
+              android:label="@string/nav_customer"
               tools:layout="@layout/fragment_master">
 
         <argument android:name="loginResult"
@@ -23,7 +23,7 @@
 
     <fragment android:id="@+id/nav_customer_detail"
               android:name="com.driveinto.ladyj.customer.CustomerDetailFragment"
-              android:label="fragment_customer_detail"
+              android:label="@string/nav_customer_detail"
               tools:layout="@layout/fragment_customer_detail">
 
         <argument android:name="loginResult"
@@ -42,28 +42,33 @@
 
     <fragment android:id="@+id/nav_body"
               android:name="com.driveinto.ladyj.body.BodyFragment"
-              android:label="BodyFragment">
+              android:label="@string/nav_body">
 
         <argument android:name="body"
                   app:argType="com.driveinto.ladyj.body.Body"/>
 
         <action android:id="@+id/action_nav_body_to_nav_body_data"
                 app:destination="@id/nav_body_data"/>
+        <action android:id="@+id/action_nav_body_to_nav_body_record"
+                app:destination="@id/nav_body_record"/>
+        <action android:id="@+id/action_nav_body_to_nav_body_record_data"
+                app:destination="@id/nav_body_record_data"/>
     </fragment>
 
     <fragment android:id="@+id/nav_body_data"
               android:name="com.driveinto.ladyj.body.data.BodyDataFragment"
-              android:label="BodyDataFragment">
+              android:label="@string/nav_body_data">
 
         <argument android:name="body"
                   app:argType="com.driveinto.ladyj.body.Body"/>
+
         <action android:id="@+id/action_nav_body_data_to_nav_body_data_detail"
                 app:destination="@id/nav_body_data_detail"/>
     </fragment>
 
     <fragment android:id="@+id/nav_body_data_detail"
               android:name="com.driveinto.ladyj.body.data.BodyDataDetailFragment"
-              android:label="fragment_body_data_detail"
+              android:label="@string/nav_body_data_detail"
               tools:layout="@layout/fragment_body_data_detail">
 
         <argument android:name="body"
@@ -75,21 +80,123 @@
                   app:argType="integer"/>
     </fragment>
 
+    <fragment android:id="@+id/nav_body_record"
+              android:name="com.driveinto.ladyj.body.record.BodyRecordFragment"
+              android:label="@string/nav_body_record">
+
+        <argument android:name="body"
+                  app:argType="com.driveinto.ladyj.body.Body"/>
+
+        <action android:id="@+id/action_nav_body_record_to_nav_body_record_detail"
+                app:destination="@id/nav_body_record_detail"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_body_record_detail"
+              android:name="com.driveinto.ladyj.body.record.BodyRecordDetailFragment"
+              android:label="@string/nav_body_record_detail"
+              tools:layout="@layout/fragment_body_record_detail">
+
+        <argument android:name="body"
+                  app:argType="com.driveinto.ladyj.body.Body"/>
+        <argument android:name="bodyRecord"
+                  app:argType="com.driveinto.ladyj.body.record.BodyRecord"
+                  app:nullable="true"/>
+        <argument android:name="operationValue"
+                  app:argType="integer"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_body_record_data"
+              android:name="com.driveinto.ladyj.body.record.data.BodyRecordDataFragment"
+              android:label="@string/nav_body_record_data">
+
+        <argument android:name="body"
+                  app:argType="com.driveinto.ladyj.body.Body"/>
+
+        <action android:id="@+id/action_nav_body_record_data_to_nav_body_record_data_detail"
+                app:destination="@id/nav_body_record_data_detail"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_body_record_data_detail"
+              android:name="com.driveinto.ladyj.body.record.data.BodyRecordDataDetailFragment"
+              android:label="@string/nav_body_record_data_detail">
+
+        <argument android:name="body"
+                  app:argType="com.driveinto.ladyj.body.Body"/>
+        <argument android:name="bodyRecordData"
+                  app:argType="com.driveinto.ladyj.body.record.data.BodyRecordData"
+                  app:nullable="true"/>
+        <argument android:name="operationValue"
+                  app:argType="integer"/>
+    </fragment>
+
     <fragment android:id="@+id/nav_skin"
               android:name="com.driveinto.ladyj.skin.SkinFragment"
-              android:label="SkinFragment">
+              android:label="@string/nav_skin">
 
         <argument android:name="skin"
                   app:argType="com.driveinto.ladyj.skin.Skin"/>
+
+        <action android:id="@+id/action_nav_skin_to_nav_skin_data"
+                app:destination="@id/nav_skin_data"/>
+        <action android:id="@+id/action_nav_skin_to_nav_skin_record"
+                app:destination="@id/nav_skin_record"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_skin_data"
+              android:name="com.driveinto.ladyj.skin.data.SkinDataFragment"
+              android:label="@string/nav_skin_data">
+
+        <argument android:name="skin"
+                  app:argType="com.driveinto.ladyj.skin.Skin"/>
+
+        <action android:id="@+id/action_nav_skin_data_to_nav_skin_data_detail"
+                app:destination="@id/nav_skin_data_detail"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_skin_data_detail"
+              android:name="com.driveinto.ladyj.skin.data.SkinDataDetailFragment"
+              android:label="@string/nav_skin_data_detail">
+
+        <argument android:name="skin"
+                  app:argType="com.driveinto.ladyj.skin.Skin"/>
+        <argument android:name="skinData"
+                  app:argType="com.driveinto.ladyj.skin.data.SkinData"
+                  app:nullable="true"/>
+        <argument android:name="operationValue"
+                  app:argType="integer"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_skin_record"
+              android:name="com.driveinto.ladyj.skin.record.SkinRecordFragment"
+              android:label="@string/nav_skin_record">
+
+        <argument android:name="skin"
+                  app:argType="com.driveinto.ladyj.skin.Skin"/>
+
+        <action android:id="@+id/action_nav_skin_record_to_nav_skin_record_detail"
+                app:destination="@id/nav_skin_record_detail"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_skin_record_detail"
+              android:name="com.driveinto.ladyj.skin.record.SkinRecordDetailFragment"
+              android:label="@string/nav_skin_record_detail">
+
+        <argument android:name="skin"
+                  app:argType="com.driveinto.ladyj.skin.Skin"/>
+        <argument android:name="skinRecord"
+                  app:argType="com.driveinto.ladyj.skin.record.SkinRecord"
+                  app:nullable="true"/>
+        <argument android:name="operationValue"
+                  app:argType="integer"/>
     </fragment>
 
     <fragment android:id="@+id/nav_organization"
               android:name="com.driveinto.ladyj.organization.OrganizationFragment"
-              android:label="fragment_organization"
+              android:label="@string/nav_organization"
               tools:layout="@layout/fragment_organization"/>
 
     <fragment android:id="@+id/nav_sales"
               android:name="com.driveinto.ladyj.sales.SalesFragment"
-              android:label="fragment_sales"
+              android:label="@string/nav_sales"
               tools:layout="@layout/fragment_sales"/>
 </navigation>

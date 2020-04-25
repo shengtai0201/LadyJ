@@ -33,9 +33,14 @@ class CustomerViewModel(application: Application) : AndroidViewModel(application
 
     private val loginResult = MutableLiveData<ILoginResult>()
 
+//    private val dataResult: LiveData<DataSourceResult<List<Customer>>> = loginResult.switchMap {
+//        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+//            emit(customerRepository.request(it.requestMap))
+//        }
+//    }
     private val dataResult: LiveData<DataSourceResult<List<Customer>>> = loginResult.switchMap {
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            emit(customerRepository.request(it.requestMap))
+            emit(customerRepository.request(it))
         }
     }
 
@@ -46,10 +51,17 @@ class CustomerViewModel(application: Application) : AndroidViewModel(application
         loginResult.postValue(result)
     }
 
+//    fun listScrolled(result: ILoginResult, visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
+//        if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
+//            viewModelScope.launch(Dispatchers.IO) {
+//                customerRepository.requestMore(result.requestMap)
+//            }
+//        }
+//    }
     fun listScrolled(result: ILoginResult, visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
         if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
             viewModelScope.launch(Dispatchers.IO) {
-                customerRepository.requestMore(result.requestMap)
+                customerRepository.requestMore(result)
             }
         }
     }

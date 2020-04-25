@@ -4,6 +4,7 @@ import android.util.Log
 import com.driveinto.ladyj.DataSourceResponse
 import com.driveinto.ladyj.DataSourceResult
 import com.driveinto.ladyj.Repository
+import com.driveinto.ladyj.body.Body
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,22 +15,22 @@ import java.util.concurrent.Executors
 
 class BodyDataRepository(private val api: BodyDataApi, private val dao: BodyDataDao) : Repository() {
 
-    suspend fun request(map: Map<String, String>): DataSourceResult<List<BodyData>> {
+    suspend fun request(body: Body): DataSourceResult<List<BodyData>> {
         lastRequestedPage = 1
-        requestMore(map)
+        requestMore(body)
 
         // Get data from the local cache
-        val data = dao.queryAsync()
+        val data = dao.queryAsync(body.customerId)
 
         return DataSourceResult(data, message)
     }
 
     // 首次開啟，會執行兩次，第二次若網路資料為空，本地查詢依然正常，是因為伺服器資料庫於第二頁確實沒資料
-    suspend fun requestMore(map: Map<String, String>) {
+    suspend fun requestMore(body: Body) {
         if (isRequestInProgress) return
 
         isRequestInProgress = true
-        val request = getRequestMap(map)
+        val request = getRequestMap(body.requestMap)
         api.read(request).enqueue(object : Callback<DataSourceResponse<BodyData>> {
             override fun onFailure(call: Call<DataSourceResponse<BodyData>>, t: Throwable) {
                 onError(t.message ?: "unknown error")
@@ -44,7 +45,7 @@ class BodyDataRepository(private val api: BodyDataApi, private val dao: BodyData
 
                     val executor = Executors.newSingleThreadExecutor()
                     executor.execute {
-                        val clients = dao.query().map { it.keys() to it }.toMap()
+                        val clients = dao.query(body.customerId).map { it.keys() to it }.toMap()
 
                         // disk io
                         GlobalScope.launch(Dispatchers.IO) {

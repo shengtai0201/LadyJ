@@ -54,20 +54,20 @@ class Converters {
         fun toUTCMillis(): Long {
             val date = DateTime()
 
-            return toUTCMillis(date.year, date.monthOfYear + 1, date.dayOfMonth)
+            return toUTCMillis(date.year, date.monthOfYear, date.dayOfMonth)
         }
 
         fun toDateTime(utcMillis: Long): DateTime {
-            val local = DateTimeZone.UTC.convertUTCToLocal(utcMillis)
-            return DateTime(local)
+            val local = DateTimeZone.forTimeZone(TimeZone.getDefault())
+            val millis = local.convertUTCToLocal(utcMillis)
+
+            return DateTime(millis)
         }
 
         fun toDateString(utcMillis: Long): String {
-//            val local = DateTimeZone.UTC.convertUTCToLocal(utcMillis)
-//            val dateTime = DateTime(local)
-            val dateTime = toDateTime(utcMillis)
+            val date = toDateTime(utcMillis)
 
-            return dateTime.toString("yyyy/MM/dd")
+            return date.toString("yyyy/MM/dd")
         }
     }
 }

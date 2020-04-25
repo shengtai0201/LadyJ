@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.driveinto.ladyj.ApiFactory
-import com.driveinto.ladyj.body.Body
-import com.driveinto.ladyj.body.BodyRepository
 import com.driveinto.ladyj.room.LadyJDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

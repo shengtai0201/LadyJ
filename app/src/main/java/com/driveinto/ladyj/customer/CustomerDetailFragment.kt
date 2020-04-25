@@ -91,30 +91,16 @@ class CustomerDetailFragment : AbstractFragment() {
                 view.customer_role.adapter = it
             }
 
-        if (customer.memberId != null) {
-            view.customer_member_id.setText(customer.memberId)
-        }
+        setText(view.customer_member_id, customer.memberId)
         view.customer_name.setText(customer.name)
-        if (customer.phone != null) {
-            view.customer_phone.setText(customer.phone)
-        }
+        setText(view.customer_phone, customer.phone)
         view.customer_birthday.text = Converters.toDateString(customer.birthdayMillis)
         view.customer_address.setText(customer.address)
-        if (customer.job != null) {
-            view.customer_job.setText(customer.job)
-        }
-        if (customer.lineId != null) {
-            view.customer_line_id.setText(customer.lineId)
-        }
-        if (customer.dateMillis != null) {
-            view.customer_date.text = Converters.toDateString(customer.dateMillis!!)
-        }
-        if (customer.height != null) {
-            view.customer_height.setText(customer.height.toString())
-        }
-        if (customer.weight != null) {
-            view.customer_weight.setText(customer.weight.toString())
-        }
+        setText(view.customer_job, customer.job)
+        setText(view.customer_line_id, customer.lineId)
+        setText(view.customer_date, customer.dateMillis) { Converters.toDateString(it) }
+        setText(view.customer_height, customer.height)
+        setText(view.customer_weight, customer.weight)
         view.customer_reference.setText(customer.reference)
         view.customer_role.setSelection(customer.getRolePosition())
 
@@ -193,14 +179,14 @@ class CustomerDetailFragment : AbstractFragment() {
         }
 
         view.detail_ok.setOnClickListener {
-            customer.memberId = view.customer_member_id.text.toString()
+            setString(view.customer_member_id) { customer.memberId = it }
             customer.name = view.customer_name.text.toString()
-            customer.phone = view.customer_phone.text.toString()
+            setString(view.customer_phone) { customer.phone = it }
             customer.address = view.customer_address.text.toString()
-            customer.job = view.customer_job.text.toString()
-            customer.lineId = view.customer_line_id.text.toString()
-            customer.height = view.customer_height.text.toString().toInt()
-            customer.weight = view.customer_weight.text.toString().toInt()
+            setString(view.customer_job) { customer.job = it }
+            setString(view.customer_line_id) { customer.lineId = it }
+            setInt(view.customer_height) { customer.height = it }
+            setInt(view.customer_weight) { customer.weight = it }
             customer.reference = view.customer_reference.text.toString()
             customer.dirty = true
 

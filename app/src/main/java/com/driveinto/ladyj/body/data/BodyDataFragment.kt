@@ -90,7 +90,8 @@ class BodyDataFragment : AbstractFragment(), ListCallback<BodyData> {
         } else {
             // 導向明細
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
-            //val action = BodyDataFr
+            val action = BodyDataFragmentDirections.actionNavBodyDataToNavBodyDataDetail(body, entity, operation.value)
+            controller.navigate(action)
         }
 
         if (entity != null) {

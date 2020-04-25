@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.driveinto.ladyj.DetailOperations
 import com.driveinto.ladyj.ListCallback
 import com.driveinto.ladyj.R
-import kotlinx.android.synthetic.main.customer_master.view.*
+import kotlinx.android.synthetic.main.master_customer.view.*
 
 class CustomerRecyclerViewAdapter(private val callback: ListCallback<Customer>) :
-    ListAdapter<Customer, CustomerRecyclerViewAdapter.ViewHolder>(CUSTOMER_COMPARATOR) {
+    ListAdapter<Customer, CustomerRecyclerViewAdapter.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.customer_master, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.master_customer, parent, false)
         return ViewHolder(view)
     }
 
@@ -45,7 +45,7 @@ class CustomerRecyclerViewAdapter(private val callback: ListCallback<Customer>) 
     }
 
     companion object {
-        private val CUSTOMER_COMPARATOR = object : DiffUtil.ItemCallback<Customer>() {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<Customer>() {
             override fun areItemsTheSame(oldItem: Customer, newItem: Customer): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: Customer, newItem: Customer): Boolean = oldItem == newItem

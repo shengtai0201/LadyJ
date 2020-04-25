@@ -2,7 +2,6 @@ package com.driveinto.ladyj.body
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.driveinto.ladyj.customer.Customer
 
 @Dao
 interface BodyDao {
@@ -17,4 +16,8 @@ interface BodyDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertAsync(body: Body)
+
+    // todo: 刪除 Customer 連動
+    @Delete
+    suspend fun deleteAsync(body: Body)
 }

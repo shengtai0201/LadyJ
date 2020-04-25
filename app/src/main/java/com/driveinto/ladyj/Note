@@ -29,4 +29,5 @@ entity.dirty 用於表示本地資料是否有同步至伺服器端，為 true �
 不存在則表示本地資料尚未新增至伺服器，應設定 entity.dirty = true，然後觸發 api 新增。
 
 // todo
-從 server 取回之時間資料，怎麼 format 成簡單格式？
+detail 之資料變更，需反應至 master 畫面
+

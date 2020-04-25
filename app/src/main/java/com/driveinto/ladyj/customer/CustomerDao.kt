@@ -17,8 +17,8 @@ interface CustomerDao {
 //    @Query("SELECT * FROM Customer WHERE rowId = :rowId LIMIT 1")
 //    fun queryAsync(rowId: Long): LiveData<Customer?>
 
-    @Query("SELECT * FROM Customer WHERE rowId = :rowId LIMIT 1")
-    fun query(rowId: Long): Customer?
+//    @Query("SELECT * FROM Customer WHERE rowId = :rowId LIMIT 1")
+//    fun query(rowId: Long): Customer?
 
     @Update
     suspend fun updateAsync(customer: Customer)

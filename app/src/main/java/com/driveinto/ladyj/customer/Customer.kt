@@ -65,7 +65,24 @@ data class Customer(
 
     companion object {
         fun emptyInstance() =
-            Customer(0, 0, null, "", null, 0, "", null, null, null, null, null, "", "", "", null)
+            Customer(
+                0,
+                0,
+                null,
+                "",
+                null,
+                Converters.toUTCMillis(1970, 1, 1),
+                "",
+                null,
+                null,
+                null,
+                null,
+                null,
+                "",
+                "",
+                "",
+                null
+            )
 
         const val key = "CUSTOMER"
     }

@@ -1,6 +1,5 @@
 package com.driveinto.ladyj.customer
 
-import com.driveinto.ladyj.customer.Customer
 import com.driveinto.ladyj.DataSourceResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -28,7 +27,7 @@ interface CustomerApi {
     @DELETE("api/Customers")
     suspend fun destroy(@Query("key") id: Int): DataSourceResponse<Customer>
 
-    @Headers("Content-Type: application/x-www-form-urlencoded; charset=UTF-8", "Accept: application/json")
-    @GET("api/Customers")
-    suspend fun read(@Query("key") id: Int): DataSourceResponse<Customer>
+//    @Headers("Content-Type: application/x-www-form-urlencoded; charset=UTF-8", "Accept: application/json")
+//    @GET("api/Customers")
+//    suspend fun read(@Query("key") id: Int): DataSourceResponse<Customer>
 }

@@ -3,7 +3,6 @@ package com.driveinto.ladyj.skin
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.driveinto.ladyj.body.Body
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -24,6 +23,17 @@ data class Skin(
     var improveOther: String?,
     var dirty: Boolean?
 ) : Parcelable {
+    val requestMap: HashMap<String, String>
+        get() {
+            val map = HashMap<String, String>()
+            map["filter[logic]"] = "and"
+            map["filter[filters][0][field]"] = "SkinId"
+            map["filter[filters][0][operator]"] = "eq"
+            map["filter[filters][0][value]"] = this.customerId.toString()
+
+            return map
+        }
+
     fun getMap(): HashMap<String, String> {
         val map = HashMap<String, String>()
 
@@ -40,7 +50,7 @@ data class Skin(
         map["improveDull"] = improveDull.toString()
         map["improvePock"] = improvePock.toString()
         if (improveOther != null) {
-            map["improveOther"] = improveOther.toString()
+            map["improveOther"] = improveOther!!
         }
 
         return map
@@ -63,5 +73,7 @@ data class Skin(
             improveOther = null,
             dirty = null
         )
+
+        const val key = "SKIN"
     }
 }

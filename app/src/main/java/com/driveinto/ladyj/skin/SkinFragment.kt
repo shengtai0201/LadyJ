@@ -1,7 +1,6 @@
 package com.driveinto.ladyj.skin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,10 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 
 import com.driveinto.ladyj.R
+import com.driveinto.ladyj.app.AbstractFragment
 import kotlinx.android.synthetic.main.fragment_skin.view.*
 
-class SkinFragment : Fragment() {
+class SkinFragment : AbstractFragment() {
 
     private val viewModel: SkinViewModel by viewModels {
         object : AbstractSavedStateViewModelFactory(this, null) {
@@ -51,9 +51,7 @@ class SkinFragment : Fragment() {
         view.detail_skin_improve_spots.isChecked = skin.improveSpots
         view.detail_skin_improve_dull.isChecked = skin.improveDull
         view.detail_skin_improve_pock.isChecked = skin.improvePock
-        if (skin.improveOther != null) {
-            view.detail_skin_improve_other.setText(skin.improveOther)
-        }
+        setText(view.detail_skin_improve_other, skin.improveOther)
 
         if (skin.dirty != null) {
             view.skin.visibility = View.VISIBLE
@@ -81,8 +79,25 @@ class SkinFragment : Fragment() {
         view.detail_skin_improve_dull.setOnCheckedChangeListener { _, isChecked -> skin.improveDull = isChecked }
         view.detail_skin_improve_pock.setOnCheckedChangeListener { _, isChecked -> skin.improvePock = isChecked }
 
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.detail_skin_data.setOnClickListener {
+            val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
+            val action = SkinFragmentDirections.actionNavSkinToNavSkinData(skin)
+            controller.navigate(action)
+        }
+        view.detail_skin_record.setOnClickListener {
+            val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
+            val action = SkinFragmentDirections.actionNavSkinToNavSkinRecord(skin)
+            controller.navigate(action)
+        }
+
         view.detail_ok.setOnClickListener {
-            skin.improveOther = view.detail_skin_improve_other.text.toString()
+            setString(view.detail_skin_improve_other) { skin.improveOther = it }
             skin.dirty = true
 
             viewModel.modify(skin)
@@ -92,8 +107,6 @@ class SkinFragment : Fragment() {
         view.detail_cancel.setOnClickListener {
             reply()
         }
-
-        return view
     }
 
     private fun reply() {

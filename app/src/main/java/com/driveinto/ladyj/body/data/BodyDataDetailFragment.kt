@@ -1,7 +1,6 @@
 package com.driveinto.ladyj.body.data
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,11 @@ import androidx.navigation.Navigation
 import com.driveinto.ladyj.DetailOperations
 
 import com.driveinto.ladyj.R
+import com.driveinto.ladyj.app.AbstractFragment
 import com.driveinto.ladyj.body.Body
-import com.driveinto.ladyj.customer.CustomerDetailFragmentArgs
 import kotlinx.android.synthetic.main.fragment_body_data_detail.view.*
 
-class BodyDataDetailFragment : Fragment() {
+class BodyDataDetailFragment : AbstractFragment() {
 
     companion object {
         fun newInstance(body: Body, bodyData: BodyData?, operationValue: Int) =
@@ -70,7 +69,7 @@ class BodyDataDetailFragment : Fragment() {
             val operationValue = if (it.containsKey(DetailOperations.key)) {
                 it.getInt(DetailOperations.key)
             } else {
-                val args = CustomerDetailFragmentArgs.fromBundle(it)
+                val args = BodyDataDetailFragmentArgs.fromBundle(it)
                 args.operationValue
             }
             detailOperation = DetailOperations.fromValue(operationValue)!!
@@ -80,16 +79,12 @@ class BodyDataDetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_body_data_detail, container, false)
 
-        if(bodyData.remark != null){
-            view.body_data_remark.setText(bodyData.remark)
-        }
-        if(bodyData.diagnosis != null){
-            view.body_data_diagnosis.setText(bodyData.diagnosis)
-        }
+        setText(view.body_data_remark, bodyData.remark)
+        setText(view.body_data_diagnosis, bodyData.diagnosis)
 
         when (detailOperation) {
             DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
-            DetailOperations.Update ->  view.detail_ok.text = getString(R.string.detail_update)
+            DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
             DetailOperations.Destroy -> {
                 view.body_data_remark.isEnabled = false
                 view.body_data_diagnosis.isEnabled = false
@@ -103,12 +98,14 @@ class BodyDataDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         view.detail_ok.setOnClickListener {
-            bodyData.remark = view.body_data_remark.text.toString()
-            bodyData.diagnosis = view.body_data_diagnosis.text.toString()
+            setString(view.body_data_remark) { bodyData.remark = it }
+            setString(view.body_data_diagnosis) { bodyData.diagnosis = it }
             bodyData.dirty = true
 
-            when(detailOperation){
+            when (detailOperation) {
                 DetailOperations.Create -> viewModel.insert(body, bodyData)
                 DetailOperations.Update -> viewModel.update(bodyData)
                 DetailOperations.Destroy -> viewModel.delete(bodyData)
@@ -123,9 +120,9 @@ class BodyDataDetailFragment : Fragment() {
     }
 
     private fun reply() {
-        if(resources.getBoolean(R.bool.twoPane)){
+        if (resources.getBoolean(R.bool.twoPane)) {
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-        }else{
+        } else {
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
             controller.navigateUp()
         }

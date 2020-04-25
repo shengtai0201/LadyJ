@@ -42,9 +42,7 @@ class BodyFragment : AbstractFragment() {
 
         view.detail_body_health_spine.isChecked = body.healthSpine
         view.detail_body_health_backache.isChecked = body.healthBackache
-        if (body.healthOther != null) {
-            view.detail_body_health_other.setText(body.healthOther)
-        }
+        setText(view.detail_body_health_other, body.healthOther)
         view.detail_body_curve_breast_enhancement.isChecked = body.curveBreastEnhancement
         view.detail_body_curve_breast_reduction.isChecked = body.curveBreastReduction
         view.detail_body_curve_breast_care.isChecked = body.curveBreastCare
@@ -59,9 +57,7 @@ class BodyFragment : AbstractFragment() {
         view.detail_body_curve_fat_hard.isChecked = body.curveFatHard
         view.detail_body_curve_fat_cellulite.isChecked = body.curveFatCellulite
         view.detail_body_curve_fat_tangled.isChecked = body.curveFatTangled
-        if (body.curveFatOther != null) {
-            view.detail_body_curve_fat_other.setText(body.curveFatOther)
-        }
+        setText(view.detail_body_curve_fat_other, body.curveFatOther)
 
         if (body.dirty != null) {
             view.body.visibility = View.VISIBLE
@@ -98,9 +94,31 @@ class BodyFragment : AbstractFragment() {
             body.curveFatTangled = isChecked
         }
 
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.detail_body_data.setOnClickListener {
+            val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
+            val action = BodyFragmentDirections.actionNavBodyToNavBodyData(body)
+            controller.navigate(action)
+        }
+        view.detail_body_record.setOnClickListener {
+            val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
+            val action = BodyFragmentDirections.actionNavBodyToNavBodyRecord(body)
+            controller.navigate(action)
+        }
+        view.detail_body_record_data.setOnClickListener {
+            val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
+            val action = BodyFragmentDirections.actionNavBodyToNavBodyRecordData(body)
+            controller.navigate(action)
+        }
+
         view.detail_ok.setOnClickListener {
-            body.healthOther = view.detail_body_health_other.text.toString()
-            body.curveFatOther = view.detail_body_curve_fat_other.text.toString()
+            setString(view.detail_body_health_other) { body.healthOther = it }
+            setString(view.detail_body_curve_fat_other) { body.curveFatOther = it }
             body.dirty = true
 
             viewModel.modify(body)
@@ -110,8 +128,6 @@ class BodyFragment : AbstractFragment() {
         view.detail_cancel.setOnClickListener {
             reply()
         }
-
-        return view
     }
 
     private fun reply() {
