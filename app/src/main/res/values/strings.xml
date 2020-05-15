@@ -1,10 +1,7 @@
 <resources>
-    <string name="app_name">Lady J</string>
+    <string name="app_name">J女郎管理系統</string>
     <string name="facebook_app_id">789639614844563</string>
     <string name="fb_login_protocol_scheme">fb789639614844563</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="customer_roles_none">暫停使用</string>
     <string name="customer_roles_at">AT</string>
@@ -19,10 +16,10 @@
         <item>@string/customer_roles_retail</item>
     </string-array>
 
-    <string name="desc_firebase_lockup">Firebase logo and name</string>
-    <string name="generic_title_text">OAuth Sign In</string>
-    <string name="signed_out">Signed Out</string>
-    <string name="sign_out">Sign Out</string>
+    <string name="desc_firebase_lockup">J女郎管理系統</string>
+    <string name="generic_title_text">J女郎管理系統</string>
+    <string name="signed_out">退出</string>
+    <string name="sign_out">登出</string>
     <string name="generic_status_fmt">User: %s (%s)</string>
     <string name="firebase_status_fmt">Firebase UID: %s</string>
     <string name="server_status_fmt">Server response: %s</string>
@@ -63,10 +60,10 @@
     <string name="nav_organization">組織</string>
     <string name="nav_sales">銷售</string>
 
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="action_settings">Settings</string>
+    <string name="nav_header_desc">導覽描述</string>
+    <string name="nav_header_title">導覽標題</string>
+    <string name="nav_header_subtitle">導覽子標題</string>
+    <string name="action_settings">設定</string>
     <string name="customer">客戶資料</string>
     <string name="customer_member_id">會員編號：</string>
     <string name="customer_name">姓名：</string>
