@@ -12,24 +12,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation.findNavController
+import com.driveinto.ladyj.DetailAuthorizations
 import com.driveinto.ladyj.DetailOperations
 
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.app.DatePickerFragment
 import com.driveinto.ladyj.app.AbstractFragment
-import com.driveinto.ladyj.login.LoginResult
 import com.driveinto.ladyj.room.Converters
 import kotlinx.android.synthetic.main.fragment_customer_detail.view.*
 
 class CustomerDetailFragment : AbstractFragment() {
 
     companion object {
-        fun newInstance(loginResult: LoginResult, customer: Customer?, operationValue: Int) =
+        fun newInstance(customer: Customer?, operationValue: Int, authorizationValue: Int) =
             CustomerDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(LoginResult.nameKey, loginResult)
                     putParcelable(Customer.key, customer)
                     putInt(DetailOperations.key, operationValue)
+                    putInt(DetailAuthorizations.key, authorizationValue)
                 }
             }
     }
@@ -44,21 +44,14 @@ class CustomerDetailFragment : AbstractFragment() {
         }
     }
 
-    private lateinit var loginResult: LoginResult
     private lateinit var customer: Customer
-    private lateinit var detailOperation: DetailOperations
+    private lateinit var operation: DetailOperations
+    private lateinit var authorization: DetailAuthorizations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            loginResult = if (it.containsKey(LoginResult.nameKey)) {
-                it.getParcelable(LoginResult.nameKey)!!
-            } else {
-                val args = CustomerDetailFragmentArgs.fromBundle(it)
-                args.loginResult
-            }
-
             val customer = if (it.containsKey(Customer.key)) {
                 it.getParcelable(Customer.key)
             } else {
@@ -77,7 +70,15 @@ class CustomerDetailFragment : AbstractFragment() {
                 val args = CustomerDetailFragmentArgs.fromBundle(it)
                 args.operationValue
             }
-            detailOperation = DetailOperations.fromValue(operationValue)!!
+            operation = DetailOperations.fromValue(operationValue)!!
+
+            val authorizationValue = if (it.containsKey(DetailAuthorizations.key)) {
+                it.getInt(DetailAuthorizations.key)
+            } else {
+                val args = CustomerDetailFragmentArgs.fromBundle(it)
+                args.authorizationValue
+            }
+            authorization = DetailAuthorizations.fromValue(authorizationValue)!!
         }
     }
 
@@ -104,30 +105,50 @@ class CustomerDetailFragment : AbstractFragment() {
         view.customer_reference.setText(customer.reference)
         view.customer_role.setSelection(customer.getRolePosition())
 
-        when (detailOperation) {
-            DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
-            DetailOperations.Update -> {
-                view.detail.visibility = View.VISIBLE
+        // UI 控制
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.detail.visibility = View.VISIBLE
 
-                view.detail_ok.text = getString(R.string.detail_update)
-            }
-            DetailOperations.Destroy -> {
-                view.customer_member_id.isEnabled = false
-                view.customer_name.isEnabled = false
-                view.customer_phone.isEnabled = false
-                view.customer_birthday.isEnabled = false
-                view.customer_address.isEnabled = false
-                view.customer_job.isEnabled = false
-                view.customer_line_id.isEnabled = false
-                view.customer_date.isEnabled = false
-                view.customer_height.isEnabled = false
-                view.customer_weight.isEnabled = false
-                view.customer_reference.isEnabled = false
-                view.customer_role.isEnabled = false
+            view.customer_member_id.isEnabled = false
+            view.customer_name.isEnabled = false
+            view.customer_phone.isEnabled = false
+            view.customer_birthday.isEnabled = false
+            view.customer_address.isEnabled = false
+            view.customer_job.isEnabled = false
+            view.customer_line_id.isEnabled = false
+            view.customer_date.isEnabled = false
+            view.customer_height.isEnabled = false
+            view.customer_weight.isEnabled = false
+            view.customer_reference.isEnabled = false
+            view.customer_role.isEnabled = false
 
-                view.detail_ok.text = getString(R.string.detail_destroy)
+            view.detail_ok.visibility = View.GONE
+        } else {
+            when (operation) {
+                DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
+                DetailOperations.Update -> {
+                    view.detail.visibility = View.VISIBLE
+
+                    view.detail_ok.text = getString(R.string.detail_update)
+                }
+                DetailOperations.Destroy -> {
+                    view.customer_member_id.isEnabled = false
+                    view.customer_name.isEnabled = false
+                    view.customer_phone.isEnabled = false
+                    view.customer_birthday.isEnabled = false
+                    view.customer_address.isEnabled = false
+                    view.customer_job.isEnabled = false
+                    view.customer_line_id.isEnabled = false
+                    view.customer_date.isEnabled = false
+                    view.customer_height.isEnabled = false
+                    view.customer_weight.isEnabled = false
+                    view.customer_reference.isEnabled = false
+                    view.customer_role.isEnabled = false
+
+                    view.detail_ok.text = getString(R.string.detail_destroy)
+                }
+                else -> view.detail_ok.text = getString(R.string.detail_ok)
             }
-            else -> view.detail_ok.text = getString(R.string.detail_ok)
         }
 
         view.customer_birthday.setOnClickListener {
@@ -154,9 +175,9 @@ class CustomerDetailFragment : AbstractFragment() {
         viewModel.body.observe(viewLifecycleOwner, Observer {
             val controller = findNavController(requireActivity(), R.id.nav_master_controller)
             val action = if (resources.getBoolean(R.bool.twoPane)) {
-                CustomerFragmentDirections.actionNavCustomerToNavBody(it)
+                CustomerFragmentDirections.actionNavCustomerToNavBody(it, authorization.value)
             } else {
-                CustomerDetailFragmentDirections.actionNavCustomerDetailToNavBody(it)
+                CustomerDetailFragmentDirections.actionNavCustomerDetailToNavBody(it, authorization.value)
             }
             controller.navigate(action)
         })
@@ -168,9 +189,9 @@ class CustomerDetailFragment : AbstractFragment() {
         viewModel.skin.observe(viewLifecycleOwner, Observer {
             val controller = findNavController(requireActivity(), R.id.nav_master_controller)
             val action = if (resources.getBoolean(R.bool.twoPane)) {
-                CustomerFragmentDirections.actionNavCustomerToNavSkin(it)
+                CustomerFragmentDirections.actionNavCustomerToNavSkin(it, authorization.value)
             } else {
-                CustomerDetailFragmentDirections.actionNavCustomerDetailToNavSkin(it)
+                CustomerDetailFragmentDirections.actionNavCustomerDetailToNavSkin(it, authorization.value)
             }
             controller.navigate(action)
         })
@@ -197,8 +218,8 @@ class CustomerDetailFragment : AbstractFragment() {
                 customer.roleId = role.id
             }
 
-            when (detailOperation) {
-                DetailOperations.Create -> viewModel.insert(loginResult, customer)
+            when (operation) {
+                DetailOperations.Create -> viewModel.insert(getLoginResult()!!, customer)
                 DetailOperations.Update -> viewModel.update(customer)
                 DetailOperations.Destroy -> viewModel.delete(customer)
                 else -> return@setOnClickListener

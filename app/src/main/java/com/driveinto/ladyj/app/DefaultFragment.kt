@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_default.view.*
 
 class DefaultFragment : AbstractFragment() {
 
-    private lateinit var loginResult: LoginResult
     private var startDestination: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +23,6 @@ class DefaultFragment : AbstractFragment() {
 
         arguments?.let {
             val args = DefaultFragmentArgs.fromBundle(it)
-            loginResult = args.loginResult
             startDestination = args.startDestination
         }
     }
@@ -48,7 +46,7 @@ class DefaultFragment : AbstractFragment() {
         actionBarDrawerToggle.syncState()
 
         val startDestinationArgs = Bundle()
-        startDestinationArgs.putParcelable(LoginResult.nameKey, loginResult)
+        startDestinationArgs.putParcelable(LoginResult.nameKey, getLoginResult())
 
         val navController = findNavController(requireActivity(), R.id.nav_master_controller)
         navController.graph.startDestination = startDestination

@@ -9,22 +9,25 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
+import com.driveinto.ladyj.DetailAuthorizations
 import com.driveinto.ladyj.DetailOperations
 
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.app.AbstractFragment
 import com.driveinto.ladyj.body.Body
+import com.driveinto.ladyj.customer.CustomerDetailFragmentArgs
 import kotlinx.android.synthetic.main.fragment_body_data_detail.view.*
 
 class BodyDataDetailFragment : AbstractFragment() {
 
     companion object {
-        fun newInstance(body: Body, bodyData: BodyData?, operationValue: Int) =
+        fun newInstance(body: Body, bodyData: BodyData?, operationValue: Int, authorizationValue: Int) =
             BodyDataDetailFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(Body.key, body)
                     putParcelable(BodyData.key, bodyData)
                     putInt(DetailOperations.key, operationValue)
+                    putInt(DetailAuthorizations.key, authorizationValue)
                 }
             }
     }
@@ -41,7 +44,8 @@ class BodyDataDetailFragment : AbstractFragment() {
 
     private lateinit var body: Body
     private lateinit var bodyData: BodyData
-    private lateinit var detailOperation: DetailOperations
+    private lateinit var operation: DetailOperations
+    private lateinit var authorization: DetailAuthorizations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +76,15 @@ class BodyDataDetailFragment : AbstractFragment() {
                 val args = BodyDataDetailFragmentArgs.fromBundle(it)
                 args.operationValue
             }
-            detailOperation = DetailOperations.fromValue(operationValue)!!
+            operation = DetailOperations.fromValue(operationValue)!!
+
+            val authorizationValue = if (it.containsKey(DetailAuthorizations.key)) {
+                it.getInt(DetailAuthorizations.key)
+            } else {
+                val args = CustomerDetailFragmentArgs.fromBundle(it)
+                args.authorizationValue
+            }
+            authorization = DetailAuthorizations.fromValue(authorizationValue)!!
         }
     }
 
@@ -82,16 +94,24 @@ class BodyDataDetailFragment : AbstractFragment() {
         setText(view.body_data_remark, bodyData.remark)
         setText(view.body_data_diagnosis, bodyData.diagnosis)
 
-        when (detailOperation) {
-            DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
-            DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
-            DetailOperations.Destroy -> {
-                view.body_data_remark.isEnabled = false
-                view.body_data_diagnosis.isEnabled = false
+        // UI 控制
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.body_data_remark.isEnabled = false
+            view.body_data_diagnosis.isEnabled = false
 
-                view.detail_ok.text = getString(R.string.detail_destroy)
+            view.detail_ok.visibility = View.GONE
+        } else {
+            when (operation) {
+                DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
+                DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
+                DetailOperations.Destroy -> {
+                    view.body_data_remark.isEnabled = false
+                    view.body_data_diagnosis.isEnabled = false
+
+                    view.detail_ok.text = getString(R.string.detail_destroy)
+                }
+                else -> view.detail_ok.text = getString(R.string.detail_ok)
             }
-            else -> view.detail_ok.text = getString(R.string.detail_ok)
         }
 
         return view
@@ -105,7 +125,7 @@ class BodyDataDetailFragment : AbstractFragment() {
             setString(view.body_data_diagnosis) { bodyData.diagnosis = it }
             bodyData.dirty = true
 
-            when (detailOperation) {
+            when (operation) {
                 DetailOperations.Create -> viewModel.insert(body, bodyData)
                 DetailOperations.Update -> viewModel.update(bodyData)
                 DetailOperations.Destroy -> viewModel.delete(bodyData)

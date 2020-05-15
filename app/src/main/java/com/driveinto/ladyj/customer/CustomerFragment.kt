@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.driveinto.ladyj.DetailAuthorizations
 import com.driveinto.ladyj.DetailOperations
 import com.driveinto.ladyj.ListCallback
 
@@ -33,14 +34,16 @@ class CustomerFragment : AbstractFragment(), ListCallback<Customer> {
         }
     }
 
-    private lateinit var loginResult: LoginResult
+    private lateinit var authorization: DetailAuthorizations
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
             val args = CustomerFragmentArgs.fromBundle(it)
-            loginResult = args.loginResult
+            authorization = DetailAuthorizations.fromValue(args.authorizationValue)!!
+            userId = args.readOnlyUserId
         }
     }
 
@@ -51,7 +54,12 @@ class CustomerFragment : AbstractFragment(), ListCallback<Customer> {
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         view.master.addItemDecoration(decoration)
 
-        view.fab.setOnClickListener { onItemChanging(null, DetailOperations.Create) }
+        // 控制唯讀
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.fab.visibility = View.GONE
+        } else {
+            view.fab.setOnClickListener { onItemChanging(null, DetailOperations.Create) }
+        }
 
         // init adapter
         val adapter = CustomerRecyclerViewAdapter(this)
@@ -72,12 +80,16 @@ class CustomerFragment : AbstractFragment(), ListCallback<Customer> {
                 val visibleItemCount = layoutManager.childCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                viewModel.listScrolled(loginResult, visibleItemCount, lastVisibleItem, totalItemCount)
+                viewModel.listScrolled(getLoginResult()!!, visibleItemCount, lastVisibleItem, totalItemCount)
             }
         })
 
         // query
-        viewModel.list(loginResult)
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            viewModel.list(LoginResult(userId, CustomerRoles.None.value))
+        } else {
+            viewModel.list(getLoginResult()!!)
+        }
 
         return view
     }
@@ -85,15 +97,15 @@ class CustomerFragment : AbstractFragment(), ListCallback<Customer> {
     override fun onItemChanging(entity: Customer?, operation: DetailOperations) {
         if (resources.getBoolean(R.bool.twoPane)) {
             // 明細一同顯示
-            val detail = CustomerDetailFragment.newInstance(loginResult, entity, operation.value)
+            val detail = CustomerDetailFragment.newInstance(entity, operation.value, authorization.value)
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.detail_container, detail).commit()
         } else {
             // 導向明細
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
             val action = CustomerFragmentDirections.actionNavCustomerToNavCustomerDetail(
-                loginResult,
                 entity,
-                operation.value
+                operation.value,
+                authorization.value
             )
             controller.navigate(action)
         }

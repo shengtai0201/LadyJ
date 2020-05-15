@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.driveinto.ladyj.DetailAuthorizations
 import com.driveinto.ladyj.DetailOperations
 import com.driveinto.ladyj.ListCallback
 
@@ -34,6 +35,7 @@ class BodyRecordFragment : AbstractFragment(), ListCallback<BodyRecord> {
     }
 
     private lateinit var body: Body
+    private lateinit var authorization: DetailAuthorizations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,7 @@ class BodyRecordFragment : AbstractFragment(), ListCallback<BodyRecord> {
         arguments?.let {
             val args = BodyRecordFragmentArgs.fromBundle(it)
             body = args.body
+            authorization = DetailAuthorizations.fromValue(args.authorizationValue)!!
         }
     }
 
@@ -51,7 +54,12 @@ class BodyRecordFragment : AbstractFragment(), ListCallback<BodyRecord> {
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         view.master.addItemDecoration(decoration)
 
-        view.fab.setOnClickListener { onItemChanging(null, DetailOperations.Create) }
+        // 控制唯讀
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.fab.visibility = View.GONE
+        } else {
+            view.fab.setOnClickListener { onItemChanging(null, DetailOperations.Create) }
+        }
 
         // init adapter
         val adapter = BodyRecordRecyclerViewAdapter(this)
@@ -85,13 +93,18 @@ class BodyRecordFragment : AbstractFragment(), ListCallback<BodyRecord> {
     override fun onItemChanging(entity: BodyRecord?, operation: DetailOperations) {
         if (resources.getBoolean(R.bool.twoPane)) {
             // 明細一同顯示
-            val detail = BodyRecordDetailFragment.newInstance(body, entity, operation.value)
+            val detail = BodyRecordDetailFragment.newInstance(body, entity, operation.value, authorization.value)
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.detail_container, detail).commit()
         } else {
             // 導向明細
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
             val action =
-                BodyRecordFragmentDirections.actionNavBodyRecordToNavBodyRecordDetail(body, entity, operation.value)
+                BodyRecordFragmentDirections.actionNavBodyRecordToNavBodyRecordDetail(
+                    body,
+                    entity,
+                    operation.value,
+                    authorization.value
+                )
             controller.navigate(action)
         }
 

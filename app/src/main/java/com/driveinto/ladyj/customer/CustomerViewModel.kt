@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.driveinto.ladyj.ApiFactory
 import com.driveinto.ladyj.DataSourceResult
+import com.driveinto.ladyj.R
 import com.driveinto.ladyj.body.Body
 import com.driveinto.ladyj.body.BodyRepository
 import com.driveinto.ladyj.room.LadyJDatabase
@@ -25,19 +26,14 @@ class CustomerViewModel(application: Application) : AndroidViewModel(application
 
     init {
         val database = LadyJDatabase.getDatabase(application)
+        val baseUrl = application.resources.getString(R.string.base_url)
 
-        customerRepository = CustomerRepository(ApiFactory.create("http://10.0.2.2:4915/"), database.customerDao())
-        bodyRepository = BodyRepository(ApiFactory.create("http://10.0.2.2:4915/"), database.bodyDao())
-        skinRepository = SkinRepository(ApiFactory.create("http://10.0.2.2:4915/"), database.skinDao())
+        customerRepository = CustomerRepository(ApiFactory.create(baseUrl), database.customerDao())
+        bodyRepository = BodyRepository(ApiFactory.create(baseUrl), database.bodyDao())
+        skinRepository = SkinRepository(ApiFactory.create(baseUrl), database.skinDao())
     }
 
     private val loginResult = MutableLiveData<ILoginResult>()
-
-//    private val dataResult: LiveData<DataSourceResult<List<Customer>>> = loginResult.switchMap {
-//        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-//            emit(customerRepository.request(it.requestMap))
-//        }
-//    }
     private val dataResult: LiveData<DataSourceResult<List<Customer>>> = loginResult.switchMap {
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             emit(customerRepository.request(it))
@@ -51,13 +47,6 @@ class CustomerViewModel(application: Application) : AndroidViewModel(application
         loginResult.postValue(result)
     }
 
-//    fun listScrolled(result: ILoginResult, visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
-//        if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
-//            viewModelScope.launch(Dispatchers.IO) {
-//                customerRepository.requestMore(result.requestMap)
-//            }
-//        }
-//    }
     fun listScrolled(result: ILoginResult, visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
         if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
             viewModelScope.launch(Dispatchers.IO) {

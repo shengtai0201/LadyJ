@@ -10,8 +10,12 @@
               android:label="@string/nav_customer"
               tools:layout="@layout/fragment_master">
 
-        <argument android:name="loginResult"
-                  app:argType="com.driveinto.ladyj.login.LoginResult"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"
+                  android:defaultValue="1"/>
+        <argument android:name="readOnlyUserId"
+                  app:argType="string"
+                  android:defaultValue=" "/>
 
         <action android:id="@+id/action_nav_customer_to_nav_body"
                 app:destination="@id/nav_body"/>
@@ -26,12 +30,12 @@
               android:label="@string/nav_customer_detail"
               tools:layout="@layout/fragment_customer_detail">
 
-        <argument android:name="loginResult"
-                  app:argType="com.driveinto.ladyj.login.LoginResult"/>
         <argument android:name="customer"
                   app:argType="com.driveinto.ladyj.customer.Customer"
                   app:nullable="true"/>
         <argument android:name="operationValue"
+                  app:argType="integer"/>
+        <argument android:name="authorizationValue"
                   app:argType="integer"/>
 
         <action android:id="@+id/action_nav_customer_detail_to_nav_body"
@@ -46,6 +50,8 @@
 
         <argument android:name="body"
                   app:argType="com.driveinto.ladyj.body.Body"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
 
         <action android:id="@+id/action_nav_body_to_nav_body_data"
                 app:destination="@id/nav_body_data"/>
@@ -61,6 +67,8 @@
 
         <argument android:name="body"
                   app:argType="com.driveinto.ladyj.body.Body"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
 
         <action android:id="@+id/action_nav_body_data_to_nav_body_data_detail"
                 app:destination="@id/nav_body_data_detail"/>
@@ -78,6 +86,8 @@
                   app:nullable="true"/>
         <argument android:name="operationValue"
                   app:argType="integer"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
     </fragment>
 
     <fragment android:id="@+id/nav_body_record"
@@ -86,6 +96,8 @@
 
         <argument android:name="body"
                   app:argType="com.driveinto.ladyj.body.Body"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
 
         <action android:id="@+id/action_nav_body_record_to_nav_body_record_detail"
                 app:destination="@id/nav_body_record_detail"/>
@@ -103,6 +115,8 @@
                   app:nullable="true"/>
         <argument android:name="operationValue"
                   app:argType="integer"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
     </fragment>
 
     <fragment android:id="@+id/nav_body_record_data"
@@ -111,6 +125,8 @@
 
         <argument android:name="body"
                   app:argType="com.driveinto.ladyj.body.Body"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
 
         <action android:id="@+id/action_nav_body_record_data_to_nav_body_record_data_detail"
                 app:destination="@id/nav_body_record_data_detail"/>
@@ -127,6 +143,8 @@
                   app:nullable="true"/>
         <argument android:name="operationValue"
                   app:argType="integer"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
     </fragment>
 
     <fragment android:id="@+id/nav_skin"
@@ -135,6 +153,8 @@
 
         <argument android:name="skin"
                   app:argType="com.driveinto.ladyj.skin.Skin"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
 
         <action android:id="@+id/action_nav_skin_to_nav_skin_data"
                 app:destination="@id/nav_skin_data"/>
@@ -148,6 +168,8 @@
 
         <argument android:name="skin"
                   app:argType="com.driveinto.ladyj.skin.Skin"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
 
         <action android:id="@+id/action_nav_skin_data_to_nav_skin_data_detail"
                 app:destination="@id/nav_skin_data_detail"/>
@@ -164,6 +186,8 @@
                   app:nullable="true"/>
         <argument android:name="operationValue"
                   app:argType="integer"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
     </fragment>
 
     <fragment android:id="@+id/nav_skin_record"
@@ -172,6 +196,8 @@
 
         <argument android:name="skin"
                   app:argType="com.driveinto.ladyj.skin.Skin"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
 
         <action android:id="@+id/action_nav_skin_record_to_nav_skin_record_detail"
                 app:destination="@id/nav_skin_record_detail"/>
@@ -188,12 +214,18 @@
                   app:nullable="true"/>
         <argument android:name="operationValue"
                   app:argType="integer"/>
+        <argument android:name="authorizationValue"
+                  app:argType="integer"/>
     </fragment>
 
     <fragment android:id="@+id/nav_organization"
               android:name="com.driveinto.ladyj.organization.OrganizationFragment"
               android:label="@string/nav_organization"
-              tools:layout="@layout/fragment_organization"/>
+              tools:layout="@layout/fragment_organization">
+
+        <action android:id="@+id/action_nav_organization_to_nav_customer"
+                app:destination="@id/nav_customer"/>
+    </fragment>
 
     <fragment android:id="@+id/nav_sales"
               android:name="com.driveinto.ladyj.sales.SalesFragment"

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.driveinto.ladyj.ApiFactory
 import com.driveinto.ladyj.DataSourceResult
+import com.driveinto.ladyj.R
 import com.driveinto.ladyj.body.Body
 import com.driveinto.ladyj.room.LadyJDatabase
 import kotlinx.coroutines.Dispatchers
@@ -19,9 +20,10 @@ class BodyRecordViewModel(application: Application) : AndroidViewModel(applicati
 
     init {
         val database = LadyJDatabase.getDatabase(application)
+        val baseUrl = application.resources.getString(R.string.base_url)
 
         bodyRecordRepository =
-            BodyRecordRepository(ApiFactory.create("http://10.0.2.2:4915/"), database.bodyRecordDao())
+            BodyRecordRepository(ApiFactory.create(baseUrl), database.bodyRecordDao())
     }
 
     private val body = MutableLiveData<Body>()

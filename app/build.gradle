@@ -21,6 +21,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "base_url", "https://www.driveinto.com/"
+        }
+        debug{
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "base_url", "http://10.0.2.2:4915/"
         }
     }
 
@@ -53,7 +59,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // Navigation component
-    def nav_version = "2.3.0-alpha05"
     // Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
@@ -66,7 +71,7 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // FirebaseUI Auth
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "androidx.browser:browser:1.2.0"
     implementation "androidx.cardview:cardview:1.0.0"
@@ -102,13 +107,16 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Kotlin coroutines
-    def coroutines_version = "2.3.0-alpha01"
+    def coroutines_version = "2.3.0-alpha02"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$coroutines_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$coroutines_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$coroutines_version"
 
     // Joda-Time
     implementation 'net.danlew:android.joda:2.10.3'
+
+    // https://github.com/Team-Blox/GraphView
+    implementation "de.blox:graphview:0.6.1"
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.driveinto.ladyj.DetailAuthorizations
 import com.driveinto.ladyj.DetailOperations
 import com.driveinto.ladyj.ListCallback
 import com.driveinto.ladyj.R

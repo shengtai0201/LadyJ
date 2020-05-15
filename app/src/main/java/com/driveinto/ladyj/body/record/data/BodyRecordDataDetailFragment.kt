@@ -9,22 +9,28 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
+import com.driveinto.ladyj.DetailAuthorizations
 import com.driveinto.ladyj.DetailOperations
 
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.app.AbstractFragment
 import com.driveinto.ladyj.body.Body
+import com.driveinto.ladyj.customer.CustomerDetailFragmentArgs
 import kotlinx.android.synthetic.main.fragment_body_record_data_detail.view.*
+import kotlinx.android.synthetic.main.fragment_body_record_data_detail.view.detail_cancel
+import kotlinx.android.synthetic.main.fragment_body_record_data_detail.view.detail_ok
+import kotlinx.android.synthetic.main.fragment_customer_detail.view.*
 
 class BodyRecordDataDetailFragment : AbstractFragment() {
 
     companion object {
-        fun newInstance(body: Body, bodyRecordData: BodyRecordData?, operationValue: Int) =
+        fun newInstance(body: Body, bodyRecordData: BodyRecordData?, operationValue: Int, authorizationValue: Int) =
             BodyRecordDataDetailFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(Body.key, body)
                     putParcelable(BodyRecordData.key, bodyRecordData)
                     putInt(DetailOperations.key, operationValue)
+                    putInt(DetailAuthorizations.key, authorizationValue)
                 }
             }
     }
@@ -41,7 +47,8 @@ class BodyRecordDataDetailFragment : AbstractFragment() {
 
     private lateinit var body: Body
     private lateinit var bodyRecordData: BodyRecordData
-    private lateinit var detailOperation: DetailOperations
+    private lateinit var operation: DetailOperations
+    private lateinit var authorization: DetailAuthorizations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +79,15 @@ class BodyRecordDataDetailFragment : AbstractFragment() {
                 val args = BodyRecordDataDetailFragmentArgs.fromBundle(it)
                 args.operationValue
             }
-            detailOperation = DetailOperations.fromValue(operationValue)!!
+            operation = DetailOperations.fromValue(operationValue)!!
+
+            val authorizationValue = if (it.containsKey(DetailAuthorizations.key)) {
+                it.getInt(DetailAuthorizations.key)
+            } else {
+                val args = CustomerDetailFragmentArgs.fromBundle(it)
+                args.authorizationValue
+            }
+            authorization = DetailAuthorizations.fromValue(authorizationValue)!!
         }
     }
 
@@ -82,16 +97,24 @@ class BodyRecordDataDetailFragment : AbstractFragment() {
         setText(view.body_record_data_design, bodyRecordData.design)
         setText(view.body_record_data_buy, bodyRecordData.buy)
 
-        when (detailOperation) {
-            DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
-            DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
-            DetailOperations.Destroy -> {
-                view.body_record_data_design.isEnabled = false
-                view.body_record_data_buy.isEnabled = false
+        // UI 控制
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.body_record_data_design.isEnabled = false
+            view.body_record_data_buy.isEnabled = false
 
-                view.detail_ok.text = getString(R.string.detail_destroy)
+            view.detail_ok.visibility = View.GONE
+        } else {
+            when (operation) {
+                DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
+                DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
+                DetailOperations.Destroy -> {
+                    view.body_record_data_design.isEnabled = false
+                    view.body_record_data_buy.isEnabled = false
+
+                    view.detail_ok.text = getString(R.string.detail_destroy)
+                }
+                else -> view.detail_ok.text = getString(R.string.detail_ok)
             }
-            else -> view.detail_ok.text = getString(R.string.detail_ok)
         }
 
         return view
@@ -105,7 +128,7 @@ class BodyRecordDataDetailFragment : AbstractFragment() {
             setString(view.body_record_data_buy) { bodyRecordData.buy = it }
             bodyRecordData.dirty = true
 
-            when (detailOperation) {
+            when (operation) {
                 DetailOperations.Create -> viewModel.insert(body, bodyRecordData)
                 DetailOperations.Update -> viewModel.update(bodyRecordData)
                 DetailOperations.Destroy -> viewModel.delete(bodyRecordData)

@@ -9,10 +9,14 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
+import com.driveinto.ladyj.DetailAuthorizations
 
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.app.AbstractFragment
 import kotlinx.android.synthetic.main.fragment_body.view.*
+import kotlinx.android.synthetic.main.fragment_body.view.detail_cancel
+import kotlinx.android.synthetic.main.fragment_body.view.detail_ok
+import kotlinx.android.synthetic.main.fragment_customer_detail.view.*
 
 class BodyFragment : AbstractFragment() {
 
@@ -27,6 +31,7 @@ class BodyFragment : AbstractFragment() {
     }
 
     private lateinit var body: Body
+    private lateinit var authorization: DetailAuthorizations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +39,7 @@ class BodyFragment : AbstractFragment() {
         arguments?.let {
             val args = BodyFragmentArgs.fromBundle(it)
             body = args.body
+            authorization = DetailAuthorizations.fromValue(args.authorizationValue)!!
         }
     }
 
@@ -59,8 +65,31 @@ class BodyFragment : AbstractFragment() {
         view.detail_body_curve_fat_tangled.isChecked = body.curveFatTangled
         setText(view.detail_body_curve_fat_other, body.curveFatOther)
 
+        // UI 控制
         if (body.dirty != null) {
             view.body.visibility = View.VISIBLE
+        }
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.detail_body_health_spine.isEnabled = false
+            view.detail_body_health_backache.isEnabled = false
+            view.detail_body_health_other.isEnabled = false
+            view.detail_body_curve_breast_enhancement.isEnabled = false
+            view.detail_body_curve_breast_reduction.isEnabled = false
+            view.detail_body_curve_breast_care.isEnabled = false
+            view.detail_body_curve_arm.isEnabled = false
+            view.detail_body_curve_hip.isEnabled = false
+            view.detail_body_curve_stomach.isEnabled = false
+            view.detail_body_curve_waist.isEnabled = false
+            view.detail_body_curve_abdominal.isEnabled = false
+            view.detail_body_curve_thigh.isEnabled = false
+            view.detail_body_curve_calf.isEnabled = false
+            view.detail_body_curve_fat_soft.isEnabled = false
+            view.detail_body_curve_fat_hard.isEnabled = false
+            view.detail_body_curve_fat_cellulite.isEnabled = false
+            view.detail_body_curve_fat_tangled.isEnabled = false
+            view.detail_body_curve_fat_other.isEnabled = false
+
+            view.detail_ok.visibility = View.GONE
         }
 
         view.detail_body_health_spine.setOnCheckedChangeListener { _, isChecked -> body.healthSpine = isChecked }
@@ -102,17 +131,17 @@ class BodyFragment : AbstractFragment() {
 
         view.detail_body_data.setOnClickListener {
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
-            val action = BodyFragmentDirections.actionNavBodyToNavBodyData(body)
+            val action = BodyFragmentDirections.actionNavBodyToNavBodyData(body, authorization.value)
             controller.navigate(action)
         }
         view.detail_body_record.setOnClickListener {
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
-            val action = BodyFragmentDirections.actionNavBodyToNavBodyRecord(body)
+            val action = BodyFragmentDirections.actionNavBodyToNavBodyRecord(body, authorization.value)
             controller.navigate(action)
         }
         view.detail_body_record_data.setOnClickListener {
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
-            val action = BodyFragmentDirections.actionNavBodyToNavBodyRecordData(body)
+            val action = BodyFragmentDirections.actionNavBodyToNavBodyRecordData(body, authorization.value)
             controller.navigate(action)
         }
 

@@ -8,11 +8,11 @@ interface CustomerDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertAsync(customer: Customer): Long
 
-    @Query("SELECT * FROM Customer ORDER BY id")
-    fun queryAsync(): LiveData<List<Customer>>
+    @Query("SELECT * FROM Customer WHERE adviserId = :adviserId ORDER BY id")
+    fun queryAsync(adviserId: String): LiveData<List<Customer>>
 
-    @Query("SELECT * FROM Customer ORDER BY id")
-    fun query(): List<Customer>
+    @Query("SELECT * FROM Customer WHERE adviserId = :adviserId ORDER BY id")
+    fun query(adviserId: String): List<Customer>
 
 //    @Query("SELECT * FROM Customer WHERE rowId = :rowId LIMIT 1")
 //    fun queryAsync(rowId: Long): LiveData<Customer?>

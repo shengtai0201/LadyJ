@@ -18,9 +18,15 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
     val loginResponse: LiveData<LoginResponse> = _loginResponse
     fun login(info: IUserLoginInfo) {
         viewModelScope.launch(Dispatchers.IO) {
-            val retrieved = repository.login(info.map)
-//            val result = retrieved.result
-            _loginResponse.postValue(retrieved)
+            if (_loginResponse.value == null) {
+                val retrieved = repository.login(info.map)
+                _loginResponse.postValue(retrieved)
+            }
         }
+    }
+
+    fun login(result: LoginResult) {
+        val response = LoginResponse(null, result)
+        _loginResponse.postValue(response)
     }
 }

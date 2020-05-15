@@ -1,61 +1,97 @@
 package com.driveinto.ladyj.organization
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
+import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigation
+import com.driveinto.ladyj.DetailAuthorizations
 
 import com.driveinto.ladyj.R
+import com.driveinto.ladyj.app.AbstractFragment
+import com.driveinto.ladyj.login.LoginFragmentDirections
+import com.driveinto.ladyj.login.LoginResult
+import de.blox.graphview.Graph
+import de.blox.graphview.Node
+import de.blox.graphview.tree.BuchheimWalkerAlgorithm
+import de.blox.graphview.tree.BuchheimWalkerConfiguration
+import kotlinx.android.synthetic.main.fragment_organization.view.*
+import kotlinx.android.synthetic.main.fragment_organization.view.graph
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class OrganizationFragment : AbstractFragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [OrganizationFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class OrganizationFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val viewModel: OrganizationViewModel by viewModels {
+        object : AbstractSavedStateViewModelFactory(this, null) {
+            override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+                @Suppress("UNCHECKED_CAST")
+                return OrganizationViewModel(activity!!.application) as T
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_organization, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_organization, container, false)
+
+        viewModel.data.observe(viewLifecycleOwner, Observer { organizations ->
+            // create graph
+            val graph = Graph()
+            val nodes: MutableMap<String, Node> = mutableMapOf()
+            organizations.forEach {
+                val sourceNode: Node = if (nodes.containsKey(it.source.id)) {
+                    nodes[it.source.id]!!
+                } else {
+                    Node(it.source)
+                }
+
+                val destinationNode: Node = if (nodes.containsKey(it.destination.id)) {
+                    nodes[it.destination.id]!!
+                } else {
+                    Node(it.destination)
+                }
+
+                graph.addEdge(sourceNode, destinationNode)
+            }
+
+            // setup adapter
+            val adapter = OrganizationAdapter(graph)
+            val configuration = BuchheimWalkerConfiguration.Builder()
+                .setSiblingSeparation(100)
+                .setLevelSeparation(300)
+                .setSubtreeSeparation(300)
+                .setOrientation(BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM)
+                .build()
+            adapter.algorithm = BuchheimWalkerAlgorithm(configuration)
+            view.graph.adapter = adapter
+            view.graph.setOnItemClickListener { _, _, position, _ ->
+                val node = adapter.getNode(position)
+                val user = node.data as Organization.User
+                showSnackBar(view.graph, "Clicked on ${user.userName}")
+
+                val controller = Navigation.findNavController(activity!!, R.id.nav_master_controller)
+                val action = OrganizationFragmentDirections.actionNavOrganizationToNavCustomer(
+                    DetailAuthorizations.ReadOnly.value,
+                    user.id
+                )
+                controller.navigate(action)
+            }
+        })
+        viewModel.message.observe(viewLifecycleOwner, Observer {
+            showToast("\uD83D\uDE28 Wooops $it")
+        })
+
+        // query
+        viewModel.list(getLoginResult()!!)
+
+        return view
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OrganizationFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OrganizationFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val LOG_TAG = "OrganizationFragment"
     }
 }

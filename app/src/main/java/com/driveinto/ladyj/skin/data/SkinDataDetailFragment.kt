@@ -9,22 +9,28 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
+import com.driveinto.ladyj.DetailAuthorizations
 import com.driveinto.ladyj.DetailOperations
 
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.app.AbstractFragment
+import com.driveinto.ladyj.customer.CustomerDetailFragmentArgs
 import com.driveinto.ladyj.skin.Skin
+import kotlinx.android.synthetic.main.fragment_customer_detail.view.*
 import kotlinx.android.synthetic.main.fragment_skin_data_detail.view.*
+import kotlinx.android.synthetic.main.fragment_skin_data_detail.view.detail_cancel
+import kotlinx.android.synthetic.main.fragment_skin_data_detail.view.detail_ok
 
 class SkinDataDetailFragment : AbstractFragment() {
 
     companion object {
-        fun newInstance(skin: Skin, skinData: SkinData?, operationValue: Int) =
+        fun newInstance(skin: Skin, skinData: SkinData?, operationValue: Int, authorizationValue: Int) =
             SkinDataDetailFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(Skin.key, skin)
                     putParcelable(SkinData.key, skinData)
                     putInt(DetailOperations.key, operationValue)
+                    putInt(DetailAuthorizations.key, authorizationValue)
                 }
             }
     }
@@ -41,7 +47,8 @@ class SkinDataDetailFragment : AbstractFragment() {
 
     private lateinit var skin: Skin
     private lateinit var skinData: SkinData
-    private lateinit var detailOperation: DetailOperations
+    private lateinit var operation: DetailOperations
+    private lateinit var authorization: DetailAuthorizations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +79,15 @@ class SkinDataDetailFragment : AbstractFragment() {
                 val args = SkinDataDetailFragmentArgs.fromBundle(it)
                 args.operationValue
             }
-            detailOperation = DetailOperations.fromValue(operationValue)!!
+            operation = DetailOperations.fromValue(operationValue)!!
+
+            val authorizationValue = if (it.containsKey(DetailAuthorizations.key)) {
+                it.getInt(DetailAuthorizations.key)
+            } else {
+                val args = CustomerDetailFragmentArgs.fromBundle(it)
+                args.authorizationValue
+            }
+            authorization = DetailAuthorizations.fromValue(authorizationValue)!!
         }
     }
 
@@ -82,16 +97,24 @@ class SkinDataDetailFragment : AbstractFragment() {
         setText(view.skin_data_advice, skinData.advice)
         setText(view.skin_data_details, skinData.details)
 
-        when (detailOperation) {
-            DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
-            DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
-            DetailOperations.Destroy -> {
-                view.skin_data_advice.isEnabled = false
-                view.skin_data_details.isEnabled = false
+        // UI 控制
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.skin_data_advice.isEnabled = false
+            view.skin_data_details.isEnabled = false
 
-                view.detail_ok.text = getString(R.string.detail_destroy)
+            view.detail_ok.visibility = View.GONE
+        } else {
+            when (operation) {
+                DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
+                DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
+                DetailOperations.Destroy -> {
+                    view.skin_data_advice.isEnabled = false
+                    view.skin_data_details.isEnabled = false
+
+                    view.detail_ok.text = getString(R.string.detail_destroy)
+                }
+                else -> view.detail_ok.text = getString(R.string.detail_ok)
             }
-            else -> view.detail_ok.text = getString(R.string.detail_ok)
         }
 
         return view
@@ -105,7 +128,7 @@ class SkinDataDetailFragment : AbstractFragment() {
             setString(view.skin_data_details) { skinData.details = it }
             skinData.dirty = true
 
-            when (detailOperation) {
+            when (operation) {
                 DetailOperations.Create -> viewModel.insert(skin, skinData)
                 DetailOperations.Update -> viewModel.update(skinData)
                 DetailOperations.Destroy -> viewModel.delete(skinData)

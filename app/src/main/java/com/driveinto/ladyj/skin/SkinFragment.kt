@@ -9,10 +9,14 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
+import com.driveinto.ladyj.DetailAuthorizations
 
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.app.AbstractFragment
+import kotlinx.android.synthetic.main.fragment_body.view.*
 import kotlinx.android.synthetic.main.fragment_skin.view.*
+import kotlinx.android.synthetic.main.fragment_skin.view.detail_cancel
+import kotlinx.android.synthetic.main.fragment_skin.view.detail_ok
 
 class SkinFragment : AbstractFragment() {
 
@@ -27,6 +31,7 @@ class SkinFragment : AbstractFragment() {
     }
 
     private lateinit var skin: Skin
+    private lateinit var authorization: DetailAuthorizations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +39,7 @@ class SkinFragment : AbstractFragment() {
         arguments?.let {
             val args = SkinFragmentArgs.fromBundle(it)
             skin = args.skin
+            authorization = DetailAuthorizations.fromValue(args.authorizationValue)!!
         }
     }
 
@@ -53,8 +59,25 @@ class SkinFragment : AbstractFragment() {
         view.detail_skin_improve_pock.isChecked = skin.improvePock
         setText(view.detail_skin_improve_other, skin.improveOther)
 
+        // UI 控制
         if (skin.dirty != null) {
             view.skin.visibility = View.VISIBLE
+        }
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.detail_skin_condition_dry.isEnabled = false
+            view.detail_skin_condition_oily.isEnabled = false
+            view.detail_skin_condition_sensitivity.isEnabled = false
+            view.detail_skin_condition_mixed.isEnabled = false
+            view.detail_skin_improve_acne.isEnabled = false
+            view.detail_skin_improve_sensitivity.isEnabled = false
+            view.detail_skin_improve_wrinkles.isEnabled = false
+            view.detail_skin_improve_pores.isEnabled = false
+            view.detail_skin_improve_spots.isEnabled = false
+            view.detail_skin_improve_dull.isEnabled = false
+            view.detail_skin_improve_pock.isEnabled = false
+            view.detail_skin_improve_other.isEnabled = false
+
+            view.detail_ok.visibility = View.GONE
         }
 
         view.detail_skin_condition_dry.setOnCheckedChangeListener { _, isChecked -> skin.conditionDry = isChecked }
@@ -87,12 +110,12 @@ class SkinFragment : AbstractFragment() {
 
         view.detail_skin_data.setOnClickListener {
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
-            val action = SkinFragmentDirections.actionNavSkinToNavSkinData(skin)
+            val action = SkinFragmentDirections.actionNavSkinToNavSkinData(skin, authorization.value)
             controller.navigate(action)
         }
         view.detail_skin_record.setOnClickListener {
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
-            val action = SkinFragmentDirections.actionNavSkinToNavSkinRecord(skin)
+            val action = SkinFragmentDirections.actionNavSkinToNavSkinRecord(skin, authorization.value)
             controller.navigate(action)
         }
 

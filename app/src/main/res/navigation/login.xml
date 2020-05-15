@@ -22,8 +22,6 @@
               android:name="com.driveinto.ladyj.app.DefaultFragment"
               android:label="DefaultFragment">
 
-        <argument android:name="loginResult"
-                  app:argType="com.driveinto.ladyj.login.LoginResult"/>
         <argument android:name="startDestination"
                   app:argType="integer"
                   android:defaultValue="0"/>

@@ -9,22 +9,28 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
+import com.driveinto.ladyj.DetailAuthorizations
 import com.driveinto.ladyj.DetailOperations
 
 import com.driveinto.ladyj.R
 import com.driveinto.ladyj.app.AbstractFragment
 import com.driveinto.ladyj.body.Body
+import com.driveinto.ladyj.customer.CustomerDetailFragmentArgs
 import kotlinx.android.synthetic.main.fragment_body_record_detail.view.*
+import kotlinx.android.synthetic.main.fragment_body_record_detail.view.detail_cancel
+import kotlinx.android.synthetic.main.fragment_body_record_detail.view.detail_ok
+import kotlinx.android.synthetic.main.fragment_customer_detail.view.*
 
 class BodyRecordDetailFragment : AbstractFragment() {
 
     companion object {
-        fun newInstance(body: Body, bodyRecord: BodyRecord?, operationValue: Int) =
+        fun newInstance(body: Body, bodyRecord: BodyRecord?, operationValue: Int, authorizationValue: Int) =
             BodyRecordDetailFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(Body.key, body)
                     putParcelable(BodyRecord.key, bodyRecord)
                     putInt(DetailOperations.key, operationValue)
+                    putInt(DetailAuthorizations.key, authorizationValue)
                 }
             }
     }
@@ -41,7 +47,8 @@ class BodyRecordDetailFragment : AbstractFragment() {
 
     private lateinit var body: Body
     private lateinit var bodyRecord: BodyRecord
-    private lateinit var detailOperation: DetailOperations
+    private lateinit var operation: DetailOperations
+    private lateinit var authorization: DetailAuthorizations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +79,15 @@ class BodyRecordDetailFragment : AbstractFragment() {
                 val args = BodyRecordDetailFragmentArgs.fromBundle(it)
                 args.operationValue
             }
-            detailOperation = DetailOperations.fromValue(operationValue)!!
+            operation = DetailOperations.fromValue(operationValue)!!
+
+            val authorizationValue = if (it.containsKey(DetailAuthorizations.key)) {
+                it.getInt(DetailAuthorizations.key)
+            } else {
+                val args = CustomerDetailFragmentArgs.fromBundle(it)
+                args.authorizationValue
+            }
+            authorization = DetailAuthorizations.fromValue(authorizationValue)!!
         }
     }
 
@@ -91,30 +106,46 @@ class BodyRecordDetailFragment : AbstractFragment() {
         setText(view.body_record_left_leg, bodyRecord.leftLeg)
         setText(view.body_record_right_leg, bodyRecord.rightLeg)
 
-        when (detailOperation) {
-            DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
-            DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
-            DetailOperations.Destroy -> {
-                view.body_record_upper_bust.isEnabled = false
-                view.body_record_under_bust.isEnabled = false
-                view.body_record_cup_size.isEnabled = false
-                view.body_record_left_arm.isEnabled = false
-                view.body_record_right_arm.isEnabled = false
-                view.body_record_stomach.isEnabled = false
-                view.body_record_waist.isEnabled = false
-                view.body_record_abdominal.isEnabled = false
-                view.body_record_hip.isEnabled = false
-                view.body_record_left_leg.isEnabled = false
-                view.body_record_right_leg.isEnabled = false
+        // UI 控制
+        if (authorization == DetailAuthorizations.ReadOnly) {
+            view.body_record_upper_bust.isEnabled = false
+            view.body_record_under_bust.isEnabled = false
+            view.body_record_cup_size.isEnabled = false
+            view.body_record_left_arm.isEnabled = false
+            view.body_record_right_arm.isEnabled = false
+            view.body_record_stomach.isEnabled = false
+            view.body_record_waist.isEnabled = false
+            view.body_record_abdominal.isEnabled = false
+            view.body_record_hip.isEnabled = false
+            view.body_record_left_leg.isEnabled = false
+            view.body_record_right_leg.isEnabled = false
 
-                view.detail_ok.text = getString(R.string.detail_destroy)
+            view.detail_ok.visibility = View.GONE
+        } else {
+            when (operation) {
+                DetailOperations.Create -> view.detail_ok.text = getString(R.string.detail_create)
+                DetailOperations.Update -> view.detail_ok.text = getString(R.string.detail_update)
+                DetailOperations.Destroy -> {
+                    view.body_record_upper_bust.isEnabled = false
+                    view.body_record_under_bust.isEnabled = false
+                    view.body_record_cup_size.isEnabled = false
+                    view.body_record_left_arm.isEnabled = false
+                    view.body_record_right_arm.isEnabled = false
+                    view.body_record_stomach.isEnabled = false
+                    view.body_record_waist.isEnabled = false
+                    view.body_record_abdominal.isEnabled = false
+                    view.body_record_hip.isEnabled = false
+                    view.body_record_left_leg.isEnabled = false
+                    view.body_record_right_leg.isEnabled = false
+
+                    view.detail_ok.text = getString(R.string.detail_destroy)
+                }
+                else -> view.detail_ok.text = getString(R.string.detail_ok)
             }
-            else -> view.detail_ok.text = getString(R.string.detail_ok)
         }
 
         return view
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -133,7 +164,7 @@ class BodyRecordDetailFragment : AbstractFragment() {
             setInt(view.body_record_right_leg) { bodyRecord.rightLeg = it }
             bodyRecord.dirty = true
 
-            when (detailOperation) {
+            when (operation) {
                 DetailOperations.Create -> viewModel.insert(body, bodyRecord)
                 DetailOperations.Update -> viewModel.update(bodyRecord)
                 DetailOperations.Destroy -> viewModel.delete(bodyRecord)
@@ -148,9 +179,9 @@ class BodyRecordDetailFragment : AbstractFragment() {
     }
 
     private fun reply() {
-        if(resources.getBoolean(R.bool.twoPane)){
+        if (resources.getBoolean(R.bool.twoPane)) {
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-        }else{
+        } else {
             val controller = Navigation.findNavController(requireActivity(), R.id.nav_master_controller)
             controller.navigateUp()
         }

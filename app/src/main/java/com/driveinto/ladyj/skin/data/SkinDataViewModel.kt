@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.driveinto.ladyj.ApiFactory
 import com.driveinto.ladyj.DataSourceResult
+import com.driveinto.ladyj.R
 import com.driveinto.ladyj.room.LadyJDatabase
 import com.driveinto.ladyj.skin.Skin
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +20,9 @@ class SkinDataViewModel(application: Application) : AndroidViewModel(application
 
     init {
         val database = LadyJDatabase.getDatabase(application)
+        val baseUrl = application.resources.getString(R.string.base_url)
 
-        skinDataRepository = SkinDataRepository(ApiFactory.create("http://10.0.2.2:4915/"), database.skinDataDao())
+        skinDataRepository = SkinDataRepository(ApiFactory.create(baseUrl), database.skinDataDao())
     }
 
     private val skin = MutableLiveData<Skin>()

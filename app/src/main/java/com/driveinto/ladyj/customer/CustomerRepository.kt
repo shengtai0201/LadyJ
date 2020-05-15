@@ -32,7 +32,7 @@ class CustomerRepository(private val api: CustomerApi, private val dao: Customer
         requestMore(result)
 
         // Get data from the local cache
-        val data = dao.queryAsync()
+        val data = dao.queryAsync(result.id)
 
         return DataSourceResult(data, message)
     }
@@ -114,7 +114,7 @@ class CustomerRepository(private val api: CustomerApi, private val dao: Customer
 
                     val executor = Executors.newSingleThreadExecutor()
                     executor.execute {
-                        val clientCustomers = dao.query().map { it.id to it }.toMap()
+                        val clientCustomers = dao.query(result.id).map { it.id to it }.toMap()
 
                         // disk io
                         GlobalScope.launch(Dispatchers.IO) {

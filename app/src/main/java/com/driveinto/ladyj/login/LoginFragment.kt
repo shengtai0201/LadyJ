@@ -1,5 +1,6 @@
 package com.driveinto.ladyj.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.edit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
@@ -162,6 +164,8 @@ class LoginFragment : AbstractFragment() {
 
         // 登出
         view.signOut.setOnClickListener {
+            signOut()
+
             // Firebase sign out
             auth.signOut()
 
@@ -196,7 +200,27 @@ class LoginFragment : AbstractFragment() {
                 view.status.text = getString(R.string.generic_status_fmt, it.userName, it.phoneNumber)
                 view.detail.text = getString(R.string.firebase_status_fmt, it.providerKey)
 
-                viewModel.login(it)
+                // 檢查
+                if (isLoginInfoNullOrEmpty()) {
+                    // 紀錄中未作登錄動作，則作伺服器的登入動作
+                    setLoginInfo(it)
+
+                    viewModel.login(it)
+                } else {
+                    // 有登錄動作之紀錄
+                    if (equalsLoginInfo(it)) {
+                        // 若相符則繼續
+                        if (isLoginResultNullOrEmpty()) {
+                            view.signOut.performClick()
+                        } else {
+                            // 略過登入伺服器，觸發 loginResponse
+                            viewModel.login(getLoginResult()!!)
+                        }
+                    } else {
+                        // 值與紀錄中不符則登出
+                        view.signOut.performClick()
+                    }
+                }
             } else {
                 view.status.setText(R.string.signed_out)
                 view.detail.text = null
@@ -213,10 +237,12 @@ class LoginFragment : AbstractFragment() {
             view.provider.visibility = View.GONE
             view.signOut.visibility = View.VISIBLE
 
+            setLoginResult(it.result)
+
             hideProgressBar()
 
             val controller = findNavController(activity!!, R.id.nav_login_controller)
-            val action = LoginFragmentDirections.actionNavLoginToNavDefault(it.result, startDestination)
+            val action = LoginFragmentDirections.actionNavLoginToNavDefault(startDestination)
             controller.navigate(action)
         })
 

@@ -35,7 +35,7 @@ class BodyRepository(private val api: BodyApi, private val dao: BodyDao) {
                     val executor = Executors.newSingleThreadExecutor()
                     executor.execute {
                         val clientBody = dao.query(customerId)
-                        if(clientBody == null){
+                        if (clientBody == null) {
                             data.postValue(Body.emptyInstance(customerId))
                         }
 
